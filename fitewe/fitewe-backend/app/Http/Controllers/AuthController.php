@@ -23,7 +23,7 @@ class AuthController extends Controller{
     
         if( auth()->attempt($credentials) ){ 
             $user = Auth::user(); 
-            $success['token'] =  $user->createToken('Pokedex')->accessToken; 
+            $success['token'] =  $user->createToken('Fitewe')->accessToken; 
             return response()->json(['success' => $success], 200);
         } else { 
             return response()->json(['error'=>'Unauthorised'], 401);
