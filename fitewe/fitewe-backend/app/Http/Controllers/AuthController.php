@@ -47,7 +47,7 @@ class AuthController extends Controller{
         $date['admin'] = 0;
 
         $user = User::create($data); 
-        $success['token'] =  $user->createToken('Pokedex')->accessToken;
+        $success['token'] =  $user->createToken('Fitewe')->accessToken;
 
         return response()->json(['success'=>$success], 200);
     }

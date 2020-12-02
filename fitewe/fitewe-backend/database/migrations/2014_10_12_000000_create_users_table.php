@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('lastname');
             $table->string('tel');
             $table->string('avatar');
+            $table->integer('admin');
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
