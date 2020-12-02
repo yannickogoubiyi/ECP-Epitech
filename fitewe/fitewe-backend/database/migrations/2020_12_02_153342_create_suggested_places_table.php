@@ -1,0 +1,48 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateSuggestedPlacesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('suggested_places', function (Blueprint $table) {
+
+            // Table suggested_places columns
+            $table->id();
+
+            $table->string('sugg_name');
+            $table->string('sugg_type');
+            $table->string('sugg_address');
+            $table->string('sugg_description');
+            $table->string('sugg_location');
+            $table->unsignedInteger('user_id');
+
+            $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('suggested_places');
+    }
+}
