@@ -23,7 +23,7 @@ class CreateSuggestedPlacesTable extends Migration
             $table->string('sugg_address');
             $table->string('sugg_description');
             $table->string('sugg_location');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->index();
 
             $table->timestamps();
 

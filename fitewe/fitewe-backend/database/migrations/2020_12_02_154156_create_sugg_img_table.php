@@ -18,7 +18,7 @@ class CreateSuggImgTable extends Migration
             // Table sugg_img columns
             $table->id();
 
-            $table->unsignedInteger('sugg_id');
+            $table->unsignedInteger('sugg_id')->index();
             $table->string('pics');
 
             $table->timestamps();

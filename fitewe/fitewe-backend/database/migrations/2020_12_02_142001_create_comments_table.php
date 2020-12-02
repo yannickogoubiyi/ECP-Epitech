@@ -18,8 +18,8 @@ class CreateCommentsTable extends Migration
             // Table comments columns
             $table->id();
 
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('place_id');
+            $table->unsignedInteger('user_id')->index();
+            $table->unsignedInteger('place_id')->index();
             $table->string('comment');
 
             // Foreign keys

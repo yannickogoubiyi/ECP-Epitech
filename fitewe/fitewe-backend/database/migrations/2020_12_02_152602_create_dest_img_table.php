@@ -18,7 +18,7 @@ class CreateDestImgTable extends Migration
             // Table dest_img colums
             $table->id();
 
-            $table->unsignedInteger('dest_id');
+            $table->unsignedInteger('dest_id')->index();
             $table->string('pics');
 
             $table->timestamps();

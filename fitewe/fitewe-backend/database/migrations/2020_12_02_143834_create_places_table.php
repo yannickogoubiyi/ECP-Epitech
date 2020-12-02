@@ -26,7 +26,7 @@ class CreatePlacesTable extends Migration
             $table->string('added_by');
             $table->integer('likes_count');
             $table->integer('dislikes_count');
-            $table->unsignedInteger('dest_id');
+            $table->unsignedInteger('dest_id')->index();
 
             // Foreign keys
             $table->foreign('dest_id')
