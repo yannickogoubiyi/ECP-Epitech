@@ -24,7 +24,7 @@ Route::middleware('auth:api')->group(function(){
     Route::get('/user/all', [UserController::class, 'index']);
     Route::get('/user/{id}', [UserController::class, 'show'])->where('id', '[0-9]+');
     Route::get('/user/me', [UserController::class, 'userDetails']);
-    Route::put('/user/update', [UserController::class, 'update']);
+    Route::patch('/user/update', [UserController::class, 'update']);
     Route::post('/logout',[AuthController::class, 'logout']);
 });
 
