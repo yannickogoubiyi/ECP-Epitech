@@ -164,8 +164,9 @@ namespace App\Http\Controllers;
          * @param  \App\Models\Place  $place
          * @return \Illuminate\Http\Response
          */
-        public function destroy(Place $place)
+        public function destroy($id)
         {
-            //
+            Place::findOrFail($id)->delete();
+        return response()->json(['success' => 'Place deleted with success']);
         }
     }

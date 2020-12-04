@@ -21,8 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
   Route::get('/places', [PlaceController::class, 'getPlaces']);
   Route::get('/places/typ/{type}',[PlaceController::class, 'getPlacesByTypes']);
-  Route::get('/places/{id}', [PlaceController::class, 'getPlacesById'])->name('place.show');
-
+  Route::get('/places/{id}', [PlaceController::class, 'getPlacesById']);
   Route::post('/addPlaces', [PlaceController::class, 'store']);
   Route::patch('/editPlaces/{id}', [PlaceController::class, 'update']);
+  Route::post('/delPlaces/{id}', [PlaceController::class, 'destroy']);
+
+  
   
