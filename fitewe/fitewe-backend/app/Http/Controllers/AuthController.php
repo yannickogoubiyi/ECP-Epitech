@@ -24,9 +24,9 @@ class AuthController extends Controller{
         if( auth()->attempt($credentials) ){ 
             $user = Auth::user(); 
             $success['token'] =  $user->createToken('Fitewe')->accessToken; 
-            return response()->json(['success' => $success], 200);
+            return response()->json(['user' => auth()->user(), 'access_token' => $success['token']]);
         } else { 
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return response()->json(['error'=>'Invalid login credentials.'], 401);
         } 
     }
 
