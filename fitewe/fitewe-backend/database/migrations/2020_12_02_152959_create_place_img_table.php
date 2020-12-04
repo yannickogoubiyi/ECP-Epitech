@@ -18,7 +18,7 @@ class CreatePlaceImgTable extends Migration
             // Table dest_img colums
             $table->id();
 
-            $table->unsignedInteger('place_id');
+            $table->unsignedInteger('place_id')->index();
             $table->string('pics');
 
             $table->timestamps();
