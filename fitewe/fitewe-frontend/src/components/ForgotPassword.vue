@@ -4,7 +4,7 @@
             <h3>Forgot Password</h3>
 
             <div class="form-group">
-                <label>Email address</label>
+                <label>Tap Email address</label>
                 <input type="email" class="form-control form-control-lg" />
             </div>
 
