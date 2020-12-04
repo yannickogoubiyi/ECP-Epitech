@@ -19,7 +19,7 @@ class CreateSuggestedPlacesTable extends Migration
             $table->id();
 
             $table->string('sugg_name');
-            $table->string('sugg_type');
+            $table->unsignedInteger('sugg_type_id')->index();
             $table->string('sugg_address');
             $table->string('sugg_description');
             $table->string('sugg_location');
@@ -31,6 +31,12 @@ class CreateSuggestedPlacesTable extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('sugg_type_id')
+                ->references('id')
+                ->on('place_types')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });
