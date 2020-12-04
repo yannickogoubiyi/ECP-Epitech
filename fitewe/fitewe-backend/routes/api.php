@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DestinationController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +17,16 @@ use App\Http\Controllers\DestinationController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// User Routes //
+Route::post('/login',[AuthController::class, 'login'])->name('login');
+Route::post('/register',[UserController::class, 'store']);
+
+Route::middleware('auth:api')->group(function(){
+    Route::get('/user/all', [UserController::class, 'index']);
+    Route::get('/user/{id}', [UserController::class, 'show'])->where('id', '[0-9]+');
+    Route::get('/user/me', [UserController::class, 'userDetails']);
+    Route::put('/user/update', [UserController::class, 'update']);
+    Route::post('/logout',[AuthController::class, 'logout']);
 });
 
 Route::apiResource('destinations', 'App\Http\Controllers\DestinationController');
