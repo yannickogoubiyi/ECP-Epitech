@@ -28,4 +28,12 @@ Route::middleware('auth:api')->group(function(){
     Route::post('/logout',[AuthController::class, 'logout']);
 });
 
-// User Routes //
+Route::get('/places', [PlaceController::class, 'getPlaces']);
+Route::get('/places/typ/{type}',[PlaceController::class, 'getPlacesByTypes']);
+Route::get('/places/{id}', [PlaceController::class, 'getPlacesById']);
+Route::post('/addPlaces', [PlaceController::class, 'store']);
+Route::patch('/editPlaces/{id}', [PlaceController::class, 'update']);
+Route::post('/delPlaces/{id}', [PlaceController::class, 'destroy']);
+
+  
+  
