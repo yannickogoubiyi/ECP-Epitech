@@ -40,6 +40,12 @@ class CreatePlacesTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 
+            $table->foreign('type_id')
+                ->references('id')
+                ->on('place_types')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }

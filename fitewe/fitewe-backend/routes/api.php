@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PlaceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+  Route::get('/places', [PlaceController::class, 'getPlaces']);
+  Route::get('/places/typ/{type}',[PlaceController::class, 'getPlacesByTypes']);
+  Route::get('/places/{id}', [PlaceController::class, 'getPlacesById']);
+  Route::post('/addPlaces', [PlaceController::class, 'store']);
+  Route::patch('/editPlaces/{id}', [PlaceController::class, 'update']);
+  Route::post('/delPlaces/{id}', [PlaceController::class, 'destroy']);
+
+  
+  
