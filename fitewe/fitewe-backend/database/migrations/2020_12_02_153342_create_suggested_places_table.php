@@ -33,6 +33,10 @@ class CreateSuggestedPlacesTable extends Migration
                 ->on('users')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+<<<<<<< HEAD
+=======
+
+>>>>>>> cd11c857d6c9b913bc61ed8223a55a436946699c
             $table->foreign('sugg_type_id')
                 ->references('id')
                 ->on('place_types')

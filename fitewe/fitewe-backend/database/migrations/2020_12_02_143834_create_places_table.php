@@ -21,11 +21,19 @@ class CreatePlacesTable extends Migration
             $table->string('place_name');
             $table->string('place_description');
             $table->string('place_address');
+<<<<<<< HEAD
             $table->string('place_location')->nullable();
             $table->unsignedInteger('type_id')->index();
             $table->string('added_by')->nullable();
             $table->integer('likes_count')->default(0);
             $table->integer('dislikes_count')->default(0);
+=======
+            $table->string('place_location');
+            $table->unsignedInteger('type_id')->index();
+            $table->string('added_by');
+            $table->integer('likes_count');
+            $table->integer('dislikes_count');
+>>>>>>> cd11c857d6c9b913bc61ed8223a55a436946699c
             $table->unsignedInteger('dest_id')->index();
 
             // Foreign keys
@@ -34,6 +42,12 @@ class CreatePlacesTable extends Migration
                 ->on('destinations')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->foreign('type_id')
+                ->references('id')
+                ->on('place_types')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
             $table->foreign('type_id')
                 ->references('id')
                 ->on('place_types')
