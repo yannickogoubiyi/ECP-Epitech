@@ -54,12 +54,14 @@ class UserController extends Controller{
         }
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'username' => 'required',
+            'firstname' => 'required',
+            'lastname' => 'required',
             'email' => 'required|email',
-            'password' => 'required|min:8',
+            'password' => 'required',
             'password_confirmation' => 'required|same:password',
         ]);
 
@@ -67,36 +69,41 @@ class UserController extends Controller{
             return response()->json([ 'error'=> $validator->errors() , 404]);     
         }
 
-        $data = $request->all();
-        $data['password'] = Hash::make($data['password']);
+        $user = User::find($id);
+        
+        if($user){
+            $user->username = $request->input('username');
+            $user->firstname = $request->input('firstname');
+            $user->lastname = $request->input('lastname');
+            $user->email = $request->input('email');
+            $user->password = Hash::make($request->input('password'));
+            $user->save();
 
-        $user = User::update($data);
-
-        return response()->json([
-            "success" => true,
-            "message" => "User updated successfully.",
-            "data" => $user
-        ]);
+            return response()->json([
+                "success" => true,
+                "message" => "User updated successfully.",
+                "data" => $user
+                ]);
+        }else{
+            return response()->json(['error' => 'User not found.'], 404);
+        }
+        
     }
 
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        return response()->json([
-            "success" => true,
-            "message" => "User deleted successfully.",
-            "data" => $user
-            ]);
-    }
-
-    // User details function
-    public function userDetails(Request $request) { 
-        $user = Auth::user();
+        $user = User::find($id);
 
         if($user){
-            $user->makeHidden(['id', 'avatar','email_verified_at', 'admin', 'created_at', 'updated_at']);
-            return response()->json(['success' => $user], 200);
+            $user->delete();
+            return response()->json([
+                "success" => true,
+                "message" => "User deleted successfully.",
+                "data" => $user
+                ]);
         }else{
-            return response()->json(['error' => 'Unauthorised. You must be authentified'], 401);
-        } 
+            return response()->json(['error' => 'User not found.'], 404);
+        }
+        
     }
 }
