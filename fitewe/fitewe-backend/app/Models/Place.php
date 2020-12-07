@@ -22,4 +22,14 @@ class Place extends Model
         'dest_id'
         
     ];
+
+    public function destinations()
+    {
+        return $this->belongsTo('App\Models\Destination', 'dest_id');
+    }
+    public function placeImages()
+    {
+        return $this->hasMany('App\Models\PlaceImage','place_id');
+    }
+
 }

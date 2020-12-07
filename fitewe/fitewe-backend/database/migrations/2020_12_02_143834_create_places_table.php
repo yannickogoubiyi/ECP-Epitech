@@ -15,7 +15,7 @@ class CreatePlacesTable extends Migration
     {
         Schema::create('places', function (Blueprint $table) {
 
-
+            // Table places columns
             $table->id();
 
             $table->string('place_name');
@@ -34,12 +34,6 @@ class CreatePlacesTable extends Migration
                 ->on('destinations')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreign('type_id')
-                ->references('id')
-                ->on('place_types')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
             $table->foreign('type_id')
                 ->references('id')
                 ->on('place_types')

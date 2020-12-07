@@ -12,11 +12,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller{
 
-    // Registering function
-    public function register(Request $request) { 
+    public function index()
+    {
+        return User::orderBy('username')->get();
+    }
+
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), [ 
             'username' => 'required', 
-            'password' => 'required', 
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8',
             'password_confirmation' => 'required|same:password', 
         ]);
 
@@ -26,56 +34,76 @@ class UserController extends Controller{
 
         $data = $request->all(); 
         $data['password'] = Hash::make($data['password']);
-        $date['admin'] = 0;
+        $data['admin'] = 0;
 
         $user = User::create($data); 
         $success['token'] =  $user->createToken('Fitewe')->accessToken;
 
-        return response()->json(['success'=>$success], 200);
+        return response()->json(['success' => $success], 200);
     }
 
-    // User details function
-    public function userInfo(Request $request) { 
-        $user = Auth::user();
-
-        if($user){
-            $user->makeHidden(['id', 'profile_icon_id','email_verified_at', 'admin', 'created_at', 'updated_at']);
-            return response()->json(['success' => $user], 200);
-        }else{
-            return response()->json(['error' => 'Unauthorised. You must be authentified'], 401);
-        } 
-    }
-
-    // Get user by id function
-    public function getUserById($id){
+    public function show($id)
+    {
         $user = User::find($id);
 
         if($user){
-            $user->makeHidden(['email_verified_at', 'admin', 'created_at', 'updated_at']);
-            return response()->json(['success' => $user], 200);
+            $user->makeHidden(['email_verified_at', 'created_at', 'updated_at']);
+            return response()->json(['user' => $user], 200);
         }else{
             return response()->json(['error' => 'User not found.'], 404);
         }
     }
 
-    // Get all users
-    public function getUsers(){
-        $users = User::orderBy('username')->get();
-        $users->makeHidden(['email_verified_at', 'admin', 'created_at', 'updated_at']);
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'password_confirmation' => 'required|same:password',
+        ]);
 
-        return response()->json(['success' => $users], 200);
+        if($validator->fails()){
+            return response()->json([ 'error'=> $validator->errors() , 404]);     
+        }
+
+        $user = User::find($id);
+        
+        if($user){
+            $user->username = $request->input('username');
+            $user->firstname = $request->input('firstname');
+            $user->lastname = $request->input('lastname');
+            $user->email = $request->input('email');
+            $user->password = Hash::make($request->input('password'));
+            $user->save();
+
+            return response()->json([
+                "success" => true,
+                "message" => "User updated successfully.",
+                "data" => $user
+                ]);
+        }else{
+            return response()->json(['error' => 'User not found.'], 404);
+        }
+        
     }
-    
-    // Edit username of the current user
-    public function editUsername(Request $request){
-        $user = Auth::user();
+
+    public function destroy($id)
+    {
+        $user = User::find($id);
 
         if($user){
-            $user->update($request->all());
-            return response()->json(['success' => 
-                $user->makeHidden(['email_verified_at', 'admin', 'created_at', 'updated_at'])], 200);
+            $user->delete();
+            return response()->json([
+                "success" => true,
+                "message" => "User deleted successfully.",
+                "data" => $user
+                ]);
         }else{
-            return response()->json(['error' => 'Unauthorised. You must be authentified'], 404);
+            return response()->json(['error' => 'User not found.'], 404);
         }
+        
     }
 }

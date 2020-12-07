@@ -16,4 +16,12 @@ class Comment extends Model
         'comment',
         
     ];
+    public function places()
+    {
+        return $this->belongsTo('App\Models\Place', 'place_id');
+    }
+    public function users()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
 }

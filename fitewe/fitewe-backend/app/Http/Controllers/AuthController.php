@@ -24,9 +24,9 @@ class AuthController extends Controller{
         if( auth()->attempt($credentials) ){ 
             $user = Auth::user(); 
             $success['token'] =  $user->createToken('Fitewe')->accessToken; 
-            return response()->json(['success' => $success], 200);
+            return response()->json(['user' => auth()->user(), 'access_token' => $success['token']]);
         } else { 
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return response()->json(['error'=>'Invalid login credentials.'], 401);
         } 
     }
 
@@ -42,6 +42,18 @@ class AuthController extends Controller{
 
         $accessToken->revoke();
         return response()->json(null, 204); 
+    }
+
+        // User details function
+    public function userDetails() { 
+        $user = Auth::user();
+
+        if($user){
+            $user->makeHidden(['id', 'avatar','email_verified_at', 'admin', 'created_at', 'updated_at']);
+            return response()->json(['success' => $user], 200);
+        }else{
+            return response()->json(['error' => 'Unauthorised. You must be authentified'], 401);
+        }
     }
     
 }
