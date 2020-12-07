@@ -15,4 +15,13 @@ class Destination extends Model
         'dest_description'
         
     ];
+
+    public function places()
+    {
+        return $this->hasMany('App\Models\Place','dest_id');
+    }
+    public function destinationImages()
+    {
+        return $this->hasMany('App\Models\DestinationImage','dest_id');
+    }
 }

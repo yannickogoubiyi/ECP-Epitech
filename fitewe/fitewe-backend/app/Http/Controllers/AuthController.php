@@ -43,5 +43,17 @@ class AuthController extends Controller{
         $accessToken->revoke();
         return response()->json(null, 204); 
     }
+
+        // User details function
+    public function userDetails() { 
+        $user = Auth::user();
+
+        if($user){
+            $user->makeHidden(['id', 'avatar','email_verified_at', 'admin', 'created_at', 'updated_at']);
+            return response()->json(['success' => $user], 200);
+        }else{
+            return response()->json(['error' => 'Unauthorised. You must be authentified'], 401);
+        }
+    }
     
 }
