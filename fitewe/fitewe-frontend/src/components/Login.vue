@@ -1,126 +1,71 @@
 <template>
-    <div class="container login-template">
-        <div class="d-flex justify-content-center h-100">
-            <div class="card">
-                <div class="card-header">
-				<h3>Sign In</h3>
-				<div class="d-flex justify-content-end social_icon">
-					<span><i class="fab fa-facebook-square"></i></span>
-					<span><i class="fab fa-google-plus-square"></i></span>
-					<span><i class="fab fa-twitter-square"></i></span>
-				</div>
-			</div>
-                <div class="card-body">
-                    <form>
-                        <div class="input-group form-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                            </div>
-                            <input type="text" class="form-control" placeholder="username">
-                        </div>
-                        <div class="input-group form-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-key"></i></span>
-                            </div>
-                            <input type="password" class="form-control" placeholder="password">
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="Login" class="btn float-right login_btn">
-                        </div>
-                        <div class="row align-items-center remember">
-                            <input type="checkbox">Remember Me
-                        </div>
-                    </form>
-                </div>
-                <div class="card-footer">
-                    <div class="d-flex justify-content-center links">
-                        Don't have an account?<a href="#">Sign Up</a>
+    <div class="login-template">
+        <div class="row shadow p-3 mb-5 bg-white rounded">
+            <div class="col-md-5">
+                <form action="/action_page.php" method="post">
+                    <div class="form-group">
+                        <label for="username">Nom d'utilisateur</label>
+                        <input type="text" class="form-control" id="username" placeholder="Nom d'utilisateur" name="username">
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <a href="#">Forgot your password?</a>
+                    <div class="form-group">
+                        <label for="pwd">Mot de passe</label>
+                        <input type="password" class="form-control" id="pwd" placeholder="Mot de passe" name="pwd">
                     </div>
-                </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-dark">Se connecter</button>
+                    </div>
+                    <div class="clearfix">
+                        <div class="custom-control custom-switch float-left">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                            <label class="custom-control-label" for="customSwitch1">Se souvenir de moi</label>
+                        </div>
+                        <a href="#" class="float-right">Mot de passe oublié ?</a>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-7">
+                Vous découvrez le site pour la première fois ? <br>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero doloremque nisi molestias accusantium odio asperiores 
+                    et ut expedita nesciunt adipisci suscipit ad nulla accusamus, dolorem nam! Repellat ad officiis velit.</p>
+                <router-link :to="{name:'signup'}" type="button" class="btn btn-dark">S'inscrire</router-link>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css?family=Numans');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
 
-html,body{
-    background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100%;
-    font-family: 'Numans', sans-serif;
+.login-template{
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
-.container{
-    height: 100%;
-    align-content: center;
+.row{
+    font-family: Fira Sans;
 }
 
-.card{
-    height: 370px;
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 400px;
-    background-color: rgba(0,0,0,0.5) !important;
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
-.input-group-prepend span{
-width: 50px;
-background-color: #FFC312;
-color: black;
-border:0 !important;
+.card {
+  background: #fff;
+  max-width: 360px;
+  border-radius: 5px;
+  margin: 60px auto;
 }
 
-input:focus{
-    outline: 0 0 0 0  !important;
-    box-shadow: 0 0 0 0 !important;
-}
+/* .shadow1 { 
+  box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
+} */
 
-.social_icon span{
-    font-size: 60px;
-    margin-left: 10px;
-    color: #FFC312;
-}
-
-.social_icon span:hover{
-    color: white;
-    cursor: pointer;
-}
-
-.remember{
-    color: white;
-}
-
-.remember input{
-    width: 20px;
-    height: 20px;
-    margin-left: 15px;
-    margin-right: 5px;
-}
-
-.login_btn{
-    color: black;
-    background-color: #FFC312;
-    width: 100px;
-}
-
-.login_btn:hover{
-    color: black;
-    background-color: white;
-}
-
-.links{
-    color: white;
-}
-
-.links a{
-    margin-left: 4px;
-}
 </style>
 
 <script>
