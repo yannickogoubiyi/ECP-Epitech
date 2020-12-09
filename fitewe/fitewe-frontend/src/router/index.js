@@ -6,8 +6,8 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "signup",
-    component: () => import("../components/Signup.vue")
+    name: "home",
+    component: () => import("../components/HomeComponent.vue")
   },
   {
     path: "/login",
@@ -23,11 +23,6 @@ const routes = [
     path: '/forgot-password',
     name: 'forgot-password',
     component: () => import('../components/ForgotPassword.vue')
-  },
-  {
-    path: '/home',
-    name: 'home',
-    component: () => import('../components/HomeComponent.vue')
   },
   {
     path: '/destinations',

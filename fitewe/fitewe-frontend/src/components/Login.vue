@@ -1,9 +1,10 @@
 <template>
-    <div class="login-template">
+    <div class="login-template container-fluid">
         <div class="row shadow p-3 mb-5 bg-white rounded">
             <div class="col-md-5">
                 <!-- Login form -->
                 <form v-on:submit.prevent="login">
+                    <div class="alert alert-danger" v-if="error">{{ error }}</div>
                     <div class="form-group">
                         <label for="username">Nom d'utilisateur</label>
                         <input required v-model="username" type="text" class="form-control" id="username" placeholder="Nom d'utilisateur" name="username">
@@ -58,8 +59,6 @@ export default {
             },
 
         loginSuccessful (req) {
-            console.log(req.data)
-
             if (!req.data.access_token) {
                 this.loginFailed()
                 return
@@ -72,7 +71,7 @@ export default {
         },
 
         loginFailed () {
-            this.error = 'Login failed!'
+            this.error = 'Nom d\'utilisateur et\ou Mot de passe incorrect(s) !'
             delete localStorage.access_token
         }
     },
@@ -82,12 +81,12 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
 
-.login-template{
-    margin-top: 5%;
-    margin-bottom: 5%;
+.login-template {
+    margin-top: 10%;
+    margin-bottom: 10%;
 }
 
-.row{
+.row {
     font-family: Fira Sans;
 }
 

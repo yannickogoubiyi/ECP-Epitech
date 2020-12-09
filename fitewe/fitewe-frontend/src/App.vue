@@ -3,12 +3,18 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-custom">
       <a class="navbar-brand" href="#">FITEWE</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+     
+      <form class="form-inline my-3 my-lg-0 flex-fill justify-content-center">
+          <input class="form-control mr-sm-2" type="text" placeholder="Rechercher" aria-label="Search">
+          <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+      </form>
+
+       <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="nav-link" href="#">Destinations</a>
           </li>
@@ -22,11 +28,6 @@
             <router-link class="nav-link pr-3" to="/">S'inscrire</router-link>
           </li>
         </ul>
-    
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Rechercher" aria-label="Search">
-          <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
-        </form>
       </div>
     </nav> 
 
@@ -95,6 +96,14 @@
 .navbar-custom .nav-item:hover .nav-link {
   color: white;
 }
+
+.custom-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.custom-toggler.navbar-toggler {
+  border-color: rgb(255,255,255);
+} 
 
 .page-footer{
   background-color: #F4C430;
