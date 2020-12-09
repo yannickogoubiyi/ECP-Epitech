@@ -35,6 +35,7 @@ Route::middleware('auth:api')->group(function(){
 
 // Destinations routes //
 Route::apiResource('destinations', 'App\Http\Controllers\DestinationController');
+Route::get('/dest', [DestinationController::class, 'randPlacesByDest']);
 
 // Comments routes //
 Route::apiResource('comments', 'App\Http\Controllers\CommentController');

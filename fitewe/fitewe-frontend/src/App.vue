@@ -16,12 +16,13 @@
             <a class="nav-link" href="#">J'y ai été</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/signup">S'inscrire</a>
+            <router-link class="nav-link pr-3" to="/login">Se connecter</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/login">Se connecter</a>
+            <router-link class="btn btn-outline-primary" to="/">S'inscrire</router-link>
           </li>
         </ul>
+    
         <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="text" placeholder="Rechercher" aria-label="Search">
           <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>

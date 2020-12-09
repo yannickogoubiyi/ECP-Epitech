@@ -17,9 +17,15 @@ class DestinationController extends Controller
     public function index()
     {
 
-        // return ResourcesDestination::collection(Destination::with('places.placeImages', 'destinationImages')->get());
-        return Destination::with('places.placeImages', 'destinationImages')->get();
-            
+        return ResourcesDestination::collection(Destination::with('places.placeImages', 'destinationImages')->get());
+
+
+    }
+
+       public function randPlacesByDest()
+    {
+        return Destination::with('places.placeImages', 'destinationImages')->inRandomOrder()->first();
+
     }
 
     /**
