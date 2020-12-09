@@ -2,14 +2,16 @@
     <div class="login-template">
         <div class="row shadow p-3 mb-5 bg-white rounded">
             <div class="col-md-5">
-                <form action="/action_page.php" method="post">
+                <!-- Login form -->
+                <form v-on:submit.prevent="login">
                     <div class="form-group">
                         <label for="username">Nom d'utilisateur</label>
-                        <input type="text" class="form-control" id="username" placeholder="Nom d'utilisateur" name="username">
+                        <input required v-model="username" type="text" class="form-control" id="username" placeholder="Nom d'utilisateur" name="username">
                     </div>
+
                     <div class="form-group">
                         <label for="pwd">Mot de passe</label>
-                        <input type="password" class="form-control" id="pwd" placeholder="Mot de passe" name="pwd">
+                        <input required v-model="password" type="password" class="form-control" id="pwd" placeholder="Mot de passe" name="pwd">
                     </div>
 
                     <div class="form-group">
@@ -33,6 +35,26 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    name: 'LoginForm',
+
+    data () {
+        return {
+            username: '',
+            password: ''
+        }
+    },
+
+    methods: {
+        login(){
+            console.log(this.username)
+            console.log(this.password)
+        }
+    },
+}
+</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
@@ -62,16 +84,4 @@ input[type=text], input[type=password] {
   margin: 60px auto;
 }
 
-/* .shadow1 { 
-  box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
-} */
-
 </style>
-
-<script>
-export default {
-  data () {
-    return {}
-  }
-}
-</script>
