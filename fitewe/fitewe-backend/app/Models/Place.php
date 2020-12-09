@@ -31,5 +31,13 @@ class Place extends Model
     {
         return $this->hasMany('App\Models\PlaceImage','place_id');
     }
+    public function placeTypes()
+    {
+        return $this->belongsTo('App\Models\PlaceType', 'type_id');
+    }
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comment','place_id');
+    }
 
 }
