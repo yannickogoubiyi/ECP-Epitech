@@ -17,33 +17,14 @@ namespace App\Http\Controllers;
          *
          * @return \Illuminate\Http\Response
          */
-    public function getPlaces(){  
-    $places = DB::table('places')
-    ->join('place_img', 'places.id', '=', 'place_img.place_id')
-    ->get();
-    return new ResourcesPlace($places);
-
+        public function getPlaces()
+        {  
+            return Place::with('placeImages', 'comments')->get();
         }
 
-
-        public function getPlacesById($id){
-
-    $places = DB::table('places')
-    ->join('place_img', 'places.id', '=', 'place_img.place_id')
-    ->where('places.id','=',$id)
-    ->get();
-    return new ResourcesPlace($places);
-
-        }
-
-        public function getPlacesByTypes($type){
-        $place_by_typ = DB::table('place_types') 
-       ->join('places', 'place_types.id', '=', 'places.type_id')
-       ->join('place_img', 'places.id', '=', 'place_img.place_id')
-    //    ->where('place_types.name','like',$type)
-    ->where('place_types.name','like',$type)
-       ->get();
-       return $place_by_typ;
+        public function getPlacesByTypes(int $type)
+        {
+            return Place::where('type_id', 'LIKE', $type)->with('placeImages', 'comments')->get();
         }
 
        
@@ -63,23 +44,23 @@ namespace App\Http\Controllers;
          * @param  \Illuminate\Http\Request  $request
          * @return \Illuminate\Http\Response
          */
- public function store(Request $request){
+        public function store(Request $request){
             // validate the data
-    $this->validate($request, array(
-    	    'dest_id'  => 'required',
-            'place_name' => 'required',
-            'place_address' => 'required',
-            'place_location' => 'nullable',
-            'type_id'  => 'required',
+            $this->validate($request, array(
+                'dest_id'  => 'required',
+                'place_name' => 'required',
+                'place_address' => 'required',
+                'place_location' => 'nullable',
+                'type_id'  => 'required',
 
-            'added_by'  => 'required',
-            'likes_count'  => 'required',
-            'dislikes_count'  => 'required',
-            'place_id'  => 'required',
+                'added_by'  => 'required',
+                'likes_count'  => 'required',
+                'dislikes_count'  => 'required',
+                'place_id'  => 'required',
 
 
-            'place_description' => 'required|max:255',
-	        'pics' => 'required'
+                'place_description' => 'required|max:255',
+                'pics' => 'required'
             
         ));
     // store in the database
@@ -114,9 +95,9 @@ namespace App\Http\Controllers;
          * @param  \App\Models\Place  $place
          * @return \Illuminate\Http\Response
          */
-        public function show(Place $place)
+        public function show(int $place)
         {
-            //
+            return Place::where('id', 'LIKE', $place)->with('placeImages', 'comments')->get();
         }
 
         /**
@@ -139,18 +120,6 @@ namespace App\Http\Controllers;
          */
         public function update(Request $request,Place $id)
         {
-            // $place_name = $request->input('place_name');
-            // $place_address = $request->input('place_address');
-            // $place_location = $request->input('place_location');
-            // $place_description = $request->input('place_description');
-
-            // //$data=array('first_name'=>$first_name,"last_name"=>$last_name,"city_name"=>$city_name,"email"=>$email);
-            // //DB::table('student')->update($data);
-            // // DB::table('student')->whereIn('id', $id)->update($request->all());
-            // DB::table('places')
-            // ->where('id','=',$id)
-            // ->update(['place_name = ?,place_address=?,place_location=?,place_description=?'],[$place_name,$place_address,$place_location,$place_description]);
-            // echo "Record updated successfully.";
 
                 $id->update($request->all());
                 return response()->json(['success' => 'Place updated with success']);

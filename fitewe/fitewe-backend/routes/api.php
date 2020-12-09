@@ -35,6 +35,7 @@ Route::middleware('auth:api')->group(function(){
 
 // Destinations routes //
 Route::apiResource('destinations', 'App\Http\Controllers\DestinationController');
+Route::get('/dest', [DestinationController::class, 'randPlacesByDest']);
 
 // Comments routes //
 Route::apiResource('comments', 'App\Http\Controllers\CommentController');
@@ -48,7 +49,7 @@ Route::get('suggplaces/user/{user_id}',['as'=>'suggplace.user_id','uses'=>'App\H
 // Places Routes //
 Route::get('/places', [PlaceController::class, 'getPlaces']);
 Route::get('/places/type/{type}',[PlaceController::class, 'getPlacesByTypes']);
-Route::get('/places/{id}', [PlaceController::class, 'getPlacesById']);
+Route::get('/places/{id}', [PlaceController::class, 'show']);
 Route::post('/addPlaces', [PlaceController::class, 'store']);
 Route::patch('/editPlaces/{id}', [PlaceController::class, 'update']);
 Route::post('/delPlaces/{id}', [PlaceController::class, 'destroy']);
