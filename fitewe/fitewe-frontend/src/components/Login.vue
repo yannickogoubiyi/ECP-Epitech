@@ -37,20 +37,43 @@
 </template>
 
 <script>
+import axios from '../backend/vue-axios/axios'
+
 export default {
     name: 'LoginForm',
 
     data () {
         return {
             username: '',
-            password: ''
+            password: '',
+            error: false
         }
     },
 
     methods: {
         login(){
-            console.log(this.username)
-            console.log(this.password)
+            axios.post('/login', { username: this.username, password: this.password })
+                .then(request => this.loginSuccessful(request))
+                .catch(() => this.loginFailed())
+            },
+
+        loginSuccessful (req) {
+            console.log(req.data)
+
+            if (!req.data.access_token) {
+                this.loginFailed()
+                return
+            }
+
+            localStorage.access_token = req.data.access_token
+            this.error = false
+
+            this.$router.replace(this.$route.query.redirect || '/home')
+        },
+
+        loginFailed () {
+            this.error = 'Login failed!'
+            delete localStorage.access_token
         }
     },
 }

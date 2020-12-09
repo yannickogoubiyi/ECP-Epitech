@@ -19,7 +19,7 @@
             <router-link class="nav-link pr-3" to="/login">Se connecter</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="btn btn-outline-primary" to="/">S'inscrire</router-link>
+            <router-link class="nav-link pr-3" to="/">S'inscrire</router-link>
           </li>
         </ul>
     
@@ -31,7 +31,7 @@
     </nav> 
 
     <div class="App">
-      <div class="container">
+      <div class="container-fluid">
         <router-view />
       </div>
     </div>
