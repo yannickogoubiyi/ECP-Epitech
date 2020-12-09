@@ -139,18 +139,6 @@ namespace App\Http\Controllers;
          */
         public function update(Request $request,Place $id)
         {
-            // $place_name = $request->input('place_name');
-            // $place_address = $request->input('place_address');
-            // $place_location = $request->input('place_location');
-            // $place_description = $request->input('place_description');
-
-            // //$data=array('first_name'=>$first_name,"last_name"=>$last_name,"city_name"=>$city_name,"email"=>$email);
-            // //DB::table('student')->update($data);
-            // // DB::table('student')->whereIn('id', $id)->update($request->all());
-            // DB::table('places')
-            // ->where('id','=',$id)
-            // ->update(['place_name = ?,place_address=?,place_location=?,place_description=?'],[$place_name,$place_address,$place_location,$place_description]);
-            // echo "Record updated successfully.";
 
                 $id->update($request->all());
                 return response()->json(['success' => 'Place updated with success']);
