@@ -39,6 +39,8 @@
 
 <script>
 import axios from '../backend/vue-axios/axios'
+import store from '../store/index'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'LoginForm',
@@ -51,12 +53,29 @@ export default {
         }
     },
 
+    created () {
+        this.checkCurrentLogin()
+    },
+    updated () {
+        this.checkCurrentLogin()
+    },
+
+    computed: {
+        ...mapGetters({ currentUser: 'currentUser' })
+    },
+
     methods: {
+        checkCurrentLogin () {
+            if (this.currentUser != null) {
+                this.$router.replace(this.$route.query.redirect || '/')
+            }
+        },
+
         login(){
             axios.post('/login', { username: this.username, password: this.password })
                 .then(request => this.loginSuccessful(request))
                 .catch(() => this.loginFailed())
-            },
+        },
 
         loginSuccessful (req) {
             if (!req.data.access_token) {
@@ -65,6 +84,7 @@ export default {
             }
 
             localStorage.access_token = req.data.access_token
+            this.$store.dispatch('login')
             this.error = false
 
             this.$router.replace(this.$route.query.redirect || '/home')
@@ -72,6 +92,7 @@ export default {
 
         loginFailed () {
             this.error = 'Nom d\'utilisateur et\ou Mot de passe incorrect(s) !'
+            this.$store.dispatch('logout')
             delete localStorage.access_token
         }
     },
