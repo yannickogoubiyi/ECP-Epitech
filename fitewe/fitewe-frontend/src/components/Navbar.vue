@@ -25,7 +25,7 @@
           </li>
         </ul>
         <span class="navbar-text">
-            {{ currentUser.username }}
+            {{ currentUser.id }}
         </span>
       </div>
     </nav> 

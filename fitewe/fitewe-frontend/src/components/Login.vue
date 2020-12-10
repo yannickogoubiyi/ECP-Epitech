@@ -91,7 +91,7 @@ export default {
         },
 
         loginFailed () {
-            this.error = 'Nom d\'utilisateur et\ou Mot de passe incorrect(s) !'
+            this.error = 'Nom d\'utilisateur et/ou Mot de passe incorrect(s) !'
             this.$store.dispatch('logout')
             delete localStorage.access_token
         }
