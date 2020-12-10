@@ -6,6 +6,7 @@ use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PlaceController;
+use App\Http\Controllers\PlaceImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,7 +50,13 @@ Route::get('suggplaces/user/{user_id}',['as'=>'suggplace.user_id','uses'=>'App\H
 // Places Routes //
 Route::get('/places', [PlaceController::class, 'getPlaces']);
 Route::get('/places/type/{type}',[PlaceController::class, 'getPlacesByTypes']);
+Route::get('/places/type/{type}/destination/{dest}',[PlaceController::class, 'getPlacesByTypesAndDest']);
 Route::get('/places/{id}', [PlaceController::class, 'show']);
 Route::post('/addPlaces', [PlaceController::class, 'store']);
 Route::patch('/editPlaces/{id}', [PlaceController::class, 'update']);
 Route::post('/delPlaces/{id}', [PlaceController::class, 'destroy']);
+
+// PlaceImages Routes
+Route::apiResource('placeimage', 'App\Http\Controllers\PlaceImageController');
+Route::get('/placeimage/place/{place}',[PlaceImageController::class, 'getImageByPlace']);
+Route::get('/placeimagedistinct',[PlaceImageController::class, 'showFirst']);

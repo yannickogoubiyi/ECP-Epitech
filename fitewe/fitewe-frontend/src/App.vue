@@ -2,7 +2,7 @@
   <div class="vue-template">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-custom">
-      <a class="navbar-brand" href="#">FITEWE</a>
+      <router-link :to="{ name: 'home'}" class="navbar-brand" href="#">FITEWE</router-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -10,7 +10,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Destinations</a>
+            <router-link :to="{name: 'destinations' }" class="nav-link" href="#">Destinations</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">J'y ai été</a>
@@ -19,7 +19,7 @@
             <router-link class="nav-link pr-3" to="/login">Se connecter</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="btn btn-outline-primary" to="/">S'inscrire</router-link>
+            <router-link class="nav-link pr-3" to="/">S'inscrire</router-link>
           </li>
         </ul>
     
@@ -31,7 +31,7 @@
     </nav> 
 
     <div class="App">
-      <div class="container">
+      <div class="container-fluid">
         <router-view />
       </div>
     </div>
@@ -76,6 +76,51 @@
 
   </div>
 </template>
+
+<script>
+// import axios from 'axios'
+
+// export default {
+  // data () {
+  //   return {
+  //     destinations:[],
+  //     places:[],
+  //     query: "",
+  //     loweredDestinationsNames:[]
+  //   }
+  // },
+  // methods: {
+  //   getDestinations() {
+  //     let url = 'http://localhost:8000/api/destinations/'
+  //     axios.get(url).then(response => this.destinations = this.getDatas(response)).catch(error => console.log(error))
+  //   },
+  //   getDatas(req) {
+  //     if(req) {
+  //       console.log(req)
+  //     }
+  //   },
+    // getPlaces() {
+    //   let url = 'http://localhost:8000/api/places/'
+    //   axios.get(url).then(response => this.places = response.data).catch(error => console.log(error))
+    // },
+    // getDestinationsNames() {
+    //   for (let destination of this.destinations)
+    //       return this.loweredDestinationsNames = destination.dest_name.toLowerCase()
+    // },
+    // filterDestinations() {
+    //   this.loweredDestinations = this.destinations.filter(destination => {
+    //       destination.dest_name.toLowerCase().startsWith(this.query.toLowerCase())
+    //     })
+    // }
+  // },
+  // mounted () {
+    // this.getDestinations()
+    // this.getPlaces(),
+    // this.getDestinationsNames()
+//   }
+// }
+</script>
+
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto');

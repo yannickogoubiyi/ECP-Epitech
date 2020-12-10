@@ -37,7 +37,12 @@ const routes = [
   {
     path: '/destinations/:id',
     name: 'DestinationDetail',
-    component: () => import('../components/DestinationsDetail.vue')
+    component: () => import('../components/DestinationsDetails.vue')
+  },
+  {
+    path: '/places/:id',
+    name: 'PlaceDetail',
+    component: () => import('../components/PlaceDetails.vue')
   }
 ];
 
