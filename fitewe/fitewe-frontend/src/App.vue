@@ -22,13 +22,21 @@
             <router-link class="nav-link pr-3" to="/">S'inscrire</router-link>
           </li>
         </ul>
-    
+
         <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Rechercher" aria-label="Search">
-          <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+          <div class="flex flex-col justify-items-center">
+            <div class="position-absolute z-index-0" @click="modal = false"></div>
+            <input class="form-control mr-sm-2 z-index-1" type="text" v-model="name" autocomplete="off" placeholder="Rechercher" @input="filterNames" @focus="modal = true" aria-label="Search">
+              <div v-if="filteredNames && modal" class="z-index-1">
+                <ul class="list-unstyled searchBoxList">
+                  <li v-for="filteredName in filteredNames" class="searchBoxItem z-index-5" v-bind:key="filteredName.id" @click="setName(filteredName)">{{ filteredName }}</li>
+                </ul>
+              </div>
+            </div>
+          <router-link :to="{ name: 'DestinationDetail', params: {id: name }  }" class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></router-link>
         </form>
       </div>
-    </nav> 
+    </nav>
 
     <div class="App">
       <div class="container-fluid">
@@ -78,47 +86,65 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 
-// export default {
-  // data () {
-  //   return {
-  //     destinations:[],
-  //     places:[],
-  //     query: "",
-  //     loweredDestinationsNames:[]
-  //   }
-  // },
-  // methods: {
-  //   getDestinations() {
-  //     let url = 'http://localhost:8000/api/destinations/'
-  //     axios.get(url).then(response => this.destinations = this.getDatas(response)).catch(error => console.log(error))
-  //   },
-  //   getDatas(req) {
-  //     if(req) {
-  //       console.log(req)
-  //     }
-  //   },
+export default {
+  name: 'App',
+  data () {
+    return {
+      requests:[],
+      modal: false,
+      // places:[],
+      name: "",
+      names:[],
+      filteredNames: [],
+      destInfos:[],
+    }
+  },
+  methods: {
+    getDestinations() {
+      let url = 'http://localhost:8000/api/destinations/'
+      axios.get(url).then(response => this.requests = this.addDestNames(response)).catch(error => console.log(error))
+    },
+        addDestNames(req) {
+          if(req) {
+            for (let destination of req.data.data)
+              this.names.push(destination.dest_name)
+            for (let destination of req.data.data)
+              this.destInfos.push([destination.id, destination.dest_name])
+          }
+    },
     // getPlaces() {
     //   let url = 'http://localhost:8000/api/places/'
-    //   axios.get(url).then(response => this.places = response.data).catch(error => console.log(error))
+    //   axios.get(url).then(response => this.places = this.addPlaceNames(response)).catch(error => console.log(error))
     // },
-    // getDestinationsNames() {
-    //   for (let destination of this.destinations)
-    //       return this.loweredDestinationsNames = destination.dest_name.toLowerCase()
+    //     addPlaceNames(req) {
+    //       if(req) {
+    //         for (let place of req.data)
+    //           this.names.push(place.place_name.slice(0, -1))
+    //           console.log(this.names)
+    //     }
     // },
-    // filterDestinations() {
-    //   this.loweredDestinations = this.destinations.filter(destination => {
-    //       destination.dest_name.toLowerCase().startsWith(this.query.toLowerCase())
-    //     })
-    // }
-  // },
-  // mounted () {
-    // this.getDestinations()
-    // this.getPlaces(),
-    // this.getDestinationsNames()
-//   }
-// }
+    filterNames() {
+      this.filteredNames = this.names.filter(name => {
+          return name.toLowerCase().startsWith(this.name.toLowerCase())
+        })
+    },
+    setName(name) {
+      this.name = name;
+      this.modal = false;
+    }
+  },
+  watch: {
+    name () {
+      this.filterNames()
+    }
+  },
+  mounted () {
+    this.getDestinations()
+    // this.getPlaces()
+  }
+}
 </script>
 
 
@@ -147,6 +173,27 @@
 
 .footer-copyright{
   background-color: #daae2d;
+}
+
+.searchBoxList{
+  width: 223px;
+  background-color: white;
+  color: black;
+  border-bottom: solid 1px grey;
+  border-right: solid 1px grey;
+  border-left: solid 1px grey;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  position: absolute;
+  
+}
+
+.searchBoxItem{
+  padding-top: 10px;
+  padding-bottom: 2%;
+  padding-left: 3%;
+  border-top: solid 1px grey;
+  position: relative;
 }
 
 </style>
