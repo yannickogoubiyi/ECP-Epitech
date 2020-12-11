@@ -1,42 +1,15 @@
 <template>
   <div class="vue-template">
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-custom">
-      <router-link :to="{ name: 'home'}" class="navbar-brand" href="#">FITEWE</router-link>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <!-- Standard navbar -->
+    <template v-if="!currentUser">
+      <ClassicNavBar></ClassicNavBar>
+    </template>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <router-link :to="{name: 'destinations' }" class="nav-link" href="#">Destinations</router-link>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">J'y ai été</a>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link pr-3" to="/login">Se connecter</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link pr-3" to="/">S'inscrire</router-link>
-          </li>
-        </ul>
-
-        <form class="form-inline my-2 my-lg-0">
-          <div class="flex flex-col justify-items-center">
-            <div class="position-absolute z-index-0" @click="modal = false"></div>
-            <input class="form-control mr-sm-2 z-index-1" type="text" v-model="name" autocomplete="off" placeholder="Rechercher" @input="filterNames" @focus="modal = true" aria-label="Search">
-              <div v-if="filteredNames && modal" class="z-index-1">
-                <ul class="list-unstyled searchBoxList">
-                  <li v-for="filteredName in filteredNames" class="searchBoxItem z-index-5" v-bind:key="filteredName.id" @click="setName(filteredName)">{{ filteredName }}</li>
-                </ul>
-              </div>
-            </div>
-          <router-link :to="{ name: 'DestinationDetail', params: {id: name }  }" class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></router-link>
-        </form>
-      </div>
-    </nav>
+    <!-- User navbar -->
+    <template v-if="currentUser">
+      <UserNavBar></UserNavBar>
+    </template>
 
     <div class="App">
       <div class="container-fluid">
@@ -86,10 +59,15 @@
 </template>
 
 <script>
+import Navbar from '@/components/Navbar'
+import ClassicNavBar from './components/ClassicNavBar'
+import store from './store/index'
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 
 export default {
-  name: 'App',
+  name: 'app',
+
   data () {
     return {
       requests:[],
@@ -101,7 +79,40 @@ export default {
       destInfos:[],
     }
   },
+
+  components: {
+    UserNavBar: Navbar,
+    ClassicNavBar,
+  },
+
+  computed: {
+    ...mapGetters({ currentUser: 'currentUser' })
+  },
+
+  created () {
+    this.checkCurrentLogin()
+    this.getDestinations()
+    // this.getPlaces()
+  },
+
+  updated () {
+    this.checkCurrentLogin()
+  },
+
+  watch: {
+    name () {
+      this.filterNames()
+    }
+  },
+
   methods: {
+    checkCurrentLogin () {
+      if (this.currentUser == null && this.$route.path !== '/') {
+        //this.$router.push('/?redirect=' + this.$route.path)
+        console.log(this.currentUser)
+      }
+    },
+
     getDestinations() {
       let url = 'http://localhost:8000/api/destinations/'
       axios.get(url).then(response => this.requests = this.addDestNames(response)).catch(error => console.log(error))
@@ -133,23 +144,14 @@ export default {
     setName(name) {
       this.name = name;
       this.modal = false;
-    }
-  },
-  watch: {
-    name () {
-      this.filterNames()
-    }
-  },
-  mounted () {
-    this.getDestinations()
-    // this.getPlaces()
+    },
   }
+
 }
 </script>
 
-
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto');
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
 .navbar-custom {
     background-color: #F4C430;
@@ -166,6 +168,14 @@ export default {
 .navbar-custom .nav-item:hover .nav-link {
   color: white;
 }
+
+.custom-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.custom-toggler.navbar-toggler {
+  border-color: rgb(255,255,255);
+} 
 
 .page-footer{
   background-color: #F4C430;

@@ -6,13 +6,18 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "signup",
-    component: () => import("../components/Signup.vue")
+    name: "home",
+    component: () => import("../components/HomeComponent.vue")
   },
   {
     path: "/login",
     name: "login",
     component: () => import("../components/Login.vue")
+  },
+  {
+    path: "/logout",
+    name: "logout",
+    component: () => import("../components/Logout.vue")
   },
   {
     path: '/signup',
@@ -23,11 +28,6 @@ const routes = [
     path: '/forgot-password',
     name: 'forgot-password',
     component: () => import('../components/ForgotPassword.vue')
-  },
-  {
-    path: '/home',
-    name: 'home',
-    component: () => import('../components/HomeComponent.vue')
   },
   {
     path: '/destinations',
@@ -53,3 +53,4 @@ const router = new VueRouter({
 });
 
 export default router;
+
