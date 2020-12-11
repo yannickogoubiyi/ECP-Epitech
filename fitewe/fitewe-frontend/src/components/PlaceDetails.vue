@@ -176,7 +176,7 @@ export default {
   },
   computed: {
     filterFirstActivePlaceImg() {
-      console.log(place_images[0])
+      console.log(place_images[0]);
     },
     filterOtherActivePlaceImg() {
       for (let pic of this.pics_details) return pic.pics.slice(1, 100);

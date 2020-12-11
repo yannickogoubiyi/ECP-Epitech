@@ -22,7 +22,7 @@
           :key="id"
         >
           <img
-            @click="goTodetail(dest.id)"
+            @click="goTodetail(dest.dest_id)"
             class="d-block w-100"
             :src="dest.pics"
             alt="Slides"
