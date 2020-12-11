@@ -49,7 +49,8 @@ export default {
         return {
             username: '',
             password: '',
-            error: false
+            error: false,
+            //user: []
         }
     },
 
@@ -83,7 +84,21 @@ export default {
                 return
             }
 
+            // Saving access_token to localStorage
             localStorage.access_token = req.data.access_token
+            // Saving user to localStorage
+            localStorage.userId = req.data.user.id
+            localStorage.username = req.data.user.username
+            localStorage.userFirstname = req.data.user.firstname
+            localStorage.userLastname = req.data.user.lastname
+            localStorage.userTel = req.data.user.tel
+            localStorage.userEmail = req.data.user.userEmail
+            localStorage.userAvatar = req.data.user.avatar
+            localStorage.userAdminState = req.data.user.admin
+            
+            // this.user = req.data.user
+            // console.log(this.user.username)
+
             this.$store.dispatch('login')
             this.error = false
 

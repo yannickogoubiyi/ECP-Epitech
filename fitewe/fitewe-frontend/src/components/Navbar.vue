@@ -21,11 +21,11 @@
           </li>
 
           <li class="nav-item">
-              <router-link class="nav-link pr-3" to="/logout">Se deconnecter</router-link>
+              <router-link class="nav-link pr-3" to="/logout">Déconnexion</router-link>
           </li>
         </ul>
         <span class="navbar-text">
-            {{ currentUser.id }}
+            | Bienvenue {{username}}
         </span>
       </div>
     </nav> 
@@ -43,6 +43,7 @@ export default {
 
   created () {
     this.checkCurrentLogin()
+    this.username = localStorage.username
   },
 
   updated () {
@@ -54,13 +55,16 @@ export default {
       if (!this.currentUser && this.$route.path !== '/') {
         this.$router.replace(this.$route.query.redirect || '/home')
       }
-    }
+    },
   }
   
 }
 </script>
 
 <style scoped>
-
+.navbar-text{
+  font-family: Roboto, sans-serif;
+  color: white;
+}
 </style>
     

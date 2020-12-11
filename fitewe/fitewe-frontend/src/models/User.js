@@ -11,8 +11,8 @@ export default class User {
     }
   }
 
-  constructor ({ sub, username, admin }) {
-    this.id = sub // eslint-disable-line camelcase
+  constructor ({ id, username, admin }) {
+    this.id = id // eslint-disable-line camelcase
     this.username = username
     this.admin = admin
   }
