@@ -9,6 +9,7 @@
                 <div class="card-body">
                     <form v-on:submit="register">
                         <h3>Inscription</h3>
+                        <div class="alert alert-danger" v-if="error">{{ error }}</div>
 
                         <div class="form-group">
                             <label for="username">Nom d'utilisateur</label>
@@ -26,13 +27,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="pwd1">Mot de passe</label>
-                            <input required v-model="password" type="password" class="form-control form-control-lg" id="pwd1" name="pwd1"/>
+                            <label for="password">Mot de passe</label>
+                            <input required v-model="password" type="password" class="form-control form-control-lg" id="password" name="password"/>
                         </div>
 
                         <div class="form-group">
-                            <label for="pwd2">Confirmation du mot de passe </label>
-                            <input required v-model="password_confirmation" type="password" class="form-control form-control-lg" id="pwd2" name="pwd2"/>
+                            <label for="password_confirmation">Confirmation du mot de passe </label>
+                            <input required v-model="password_confirmation" type="password" class="form-control form-control-lg" id="password_confirmation" name="password_confirmation"/>
                         </div>
 
                         <div class="form-group">
@@ -87,26 +88,30 @@ export default {
             password_confirmation: '',
             email: '',
             tel: '',
-            error: false
+            error: null
         }
     }, 
 
     methods:{
-        register(){
-
-            console.log(this.username)
-
+        register(e){
+            e.preventDefault();
             axios.post('/register', {username: this.username, firstname: this.firstname, 
             lastname: this.lastname, password: this.password, password_confirmation: this.password_confirmation, email: this.email, tel: this.tel})
-                .then(request => this.registerSuccessful(request))
-                .catch(() => this.registerFailed())
+                .then(request => {
+                    this.registerSuccessful(request)
+                    this.error = request.data.error
+                    //console.log(request)
+
+                })
+                .catch((error) => {
+                    this.registerFailed()})
         },
 
         registerSuccessful(req){
-            alert('Compte créé avec succès !')
+            this.$router.replace(this.$route.query.redirect || '/login')
         },
 
-        registerFailed(){
+        registerFailed(err){
             this.error = 'Erreur !'
         }
     }

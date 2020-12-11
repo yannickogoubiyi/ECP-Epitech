@@ -102,7 +102,7 @@ export default {
             this.$store.dispatch('login')
             this.error = false
 
-            this.$router.replace(this.$route.query.redirect || '/home')
+            this.$router.replace(this.$route.query.redirect || '/')
         },
 
         loginFailed () {

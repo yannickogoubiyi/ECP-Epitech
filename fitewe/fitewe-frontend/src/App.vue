@@ -88,7 +88,7 @@ export default {
     checkCurrentLogin () {
       if (this.currentUser == null && this.$route.path !== '/') {
         //this.$router.push('/?redirect=' + this.$route.path)
-        console.log(this.currentUser)
+        //console.log(this.currentUser)
       }
     }
   }
