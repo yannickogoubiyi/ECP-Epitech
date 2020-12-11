@@ -25,9 +25,9 @@ const routes = [
     component: () => import('../components/Signup.vue')
   },
   {
-    path: '/forgot-password',
-    name: 'forgot-password',
-    component: () => import('../components/ForgotPassword.vue')
+    path: "/home",
+    name: "home",
+    component: () => import("../components/HomeComponent.vue")
   },
   {
     path: '/destinations',

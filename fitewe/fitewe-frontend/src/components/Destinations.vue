@@ -36,15 +36,14 @@
 </template>
 
 <script>
-import axios from 'axios';
-
+import axios from "axios";
 
 export default {
-  name: 'Destination',
-  data () {
+  name: "Destination",
+  data() {
     return {
-      destinations: []
-    }
+      destinations: [],
+    };
   },
   methods: {
     // axios de la liste des destinations
@@ -65,10 +64,10 @@ export default {
           return destination.destination_images.slice(0, 1);
         },
   },
-  mounted () {
-    this.destinationList()
-  }
-}
+  mounted() {
+    this.destinationList();
+  },
+};
 </script>
 
 <style scoped>
