@@ -68,18 +68,6 @@ import axios from 'axios'
 export default {
   name: 'app',
 
-  data () {
-    return {
-      requests:[],
-      modal: false,
-      // places:[],
-      name: "",
-      names:[],
-      filteredNames: [],
-      destInfos:[],
-    }
-  },
-
   components: {
     UserNavBar: Navbar,
     ClassicNavBar,
@@ -91,18 +79,10 @@ export default {
 
   created () {
     this.checkCurrentLogin()
-    this.getDestinations()
-    // this.getPlaces()
   },
 
   updated () {
     this.checkCurrentLogin()
-  },
-
-  watch: {
-    name () {
-      this.filterNames()
-    }
   },
 
   methods: {
@@ -111,39 +91,6 @@ export default {
         //this.$router.push('/?redirect=' + this.$route.path)
         console.log(this.currentUser)
       }
-    },
-
-    getDestinations() {
-      let url = 'http://localhost:8000/api/destinations/'
-      axios.get(url).then(response => this.requests = this.addDestNames(response)).catch(error => console.log(error))
-    },
-        addDestNames(req) {
-          if(req) {
-            for (let destination of req.data.data)
-              this.names.push(destination.dest_name)
-            for (let destination of req.data.data)
-              this.destInfos.push([destination.id, destination.dest_name])
-          }
-    },
-    // getPlaces() {
-    //   let url = 'http://localhost:8000/api/places/'
-    //   axios.get(url).then(response => this.places = this.addPlaceNames(response)).catch(error => console.log(error))
-    // },
-    //     addPlaceNames(req) {
-    //       if(req) {
-    //         for (let place of req.data)
-    //           this.names.push(place.place_name.slice(0, -1))
-    //           console.log(this.names)
-    //     }
-    // },
-    filterNames() {
-      this.filteredNames = this.names.filter(name => {
-          return name.toLowerCase().startsWith(this.name.toLowerCase())
-        })
-    },
-    setName(name) {
-      this.name = name;
-      this.modal = false;
     },
   }
 

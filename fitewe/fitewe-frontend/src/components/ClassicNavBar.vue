@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-custom">
-      <a class="navbar-brand" href="#">FITEWE</a>
+      <router-link type="button" :to="{name: 'home'}" class="navbar-brand">FITEWE</router-link>
      
       <form class="form-inline my-2 my-lg-0">
           <div class="flex flex-col justify-items-center">
@@ -22,7 +22,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Destinations</a>
+            <router-link :to="{name: 'destinations'}" class="nav-link" href="#">Destinations</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link pr-3" to="/login">Se connecter</router-link>
@@ -36,8 +36,65 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-    name: 'ClassicNavBar',
+  name: 'ClassicNavBar',
+  data () {
+    return {
+      requests:[],
+      modal: false,
+      // places:[],
+      name: "",
+      names:[],
+      filteredNames: [],
+      destInfos:[],
+    }
+  },
+  methods: {
+    getDestinations() {
+      let url = 'http://localhost:8000/api/destinations/'
+      axios.get(url).then(response => this.requests = this.addDestNames(response)).catch(error => console.log(error))
+    },
+        addDestNames(req) {
+          if(req) {
+            for (let destination of req.data.data)
+              this.names.push(destination.dest_name)
+            for (let destination of req.data.data)
+              this.destInfos.push([destination.id, destination.dest_name])
+          }
+    },
+    // getPlaces() {
+    //   let url = 'http://localhost:8000/api/places/'
+    //   axios.get(url).then(response => this.places = this.addPlaceNames(response)).catch(error => console.log(error))
+    // },
+    //     addPlaceNames(req) {
+    //       if(req) {
+    //         for (let place of req.data)
+    //           this.names.push(place.place_name.slice(0, -1))
+    //           console.log(this.names)
+    //     }
+    // },
+    filterNames() {
+      this.filteredNames = this.names.filter(name => {
+          return name.toLowerCase().startsWith(this.name.toLowerCase())
+        })
+    },
+    setName(name) {
+      this.name = name;
+      this.modal = false;
+    }
+  },
+  watch: {
+    name () {
+      this.filterNames()
+    }
+  },
+  mounted () {
+    this.getDestinations()
+    // this.getPlaces()
+  }
+
 }
 </script>
 
