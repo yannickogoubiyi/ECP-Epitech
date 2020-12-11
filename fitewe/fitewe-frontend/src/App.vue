@@ -63,6 +63,7 @@ import Navbar from '@/components/Navbar'
 import ClassicNavBar from './components/ClassicNavBar'
 import store from './store/index'
 import { mapGetters } from 'vuex'
+import axios from 'axios'
 
 export default {
   name: 'app',
@@ -90,7 +91,7 @@ export default {
         //this.$router.push('/?redirect=' + this.$route.path)
         //console.log(this.currentUser)
       }
-    }
+    },
   }
 
 }
@@ -129,6 +130,27 @@ export default {
 
 .footer-copyright{
   background-color: #daae2d;
+}
+
+.searchBoxList{
+  width: 223px;
+  background-color: white;
+  color: black;
+  border-bottom: solid 1px grey;
+  border-right: solid 1px grey;
+  border-left: solid 1px grey;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  position: absolute;
+  
+}
+
+.searchBoxItem{
+  padding-top: 10px;
+  padding-bottom: 2%;
+  padding-left: 3%;
+  border-top: solid 1px grey;
+  position: relative;
 }
 
 </style>

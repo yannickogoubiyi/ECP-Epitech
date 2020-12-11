@@ -21,27 +21,13 @@
           v-for="(dest, id) in destination"
           :key="id"
         >
-          <div>
-            <a href="http://www.google.com" target="_blank">
-              <img class="d-block w-100" :src="dest.pics" alt="First slide" />
-            </a>
-          </div>
-        </div>
-
-        <!-- <div class="carousel-item">
           <img
+            @click="goTodetail(dest.id)"
             class="d-block w-100"
-            src="https://zupimages.net/up/20/48/g33s.png"
-            alt="Second slide"
+            :src="dest.pics"
+            alt="Slides"
           />
         </div>
-        <div class="carousel-item">
-          <img
-            class="d-block w-100"
-            src="https://zupimages.net/up/20/48/mi1b.png"
-            alt="Third slide"
-          />
-        </div> -->
       </div>
       <a
         class="carousel-control-prev"
@@ -68,7 +54,11 @@
       <div class="wrapper" id="myDiv">
         <!-- <div v-for="plac in places.data.places" v-bind:key="plac.id"> -->
         <div v-for="plac in places" v-bind:key="plac.id">
-          <div class="place_details" id="place_details">
+          <div
+            class="place_details"
+            id="place_details"
+            @click="goToPlacedDetail(plac.id)"
+          >
             <span>
               <img :src="plac.place_images[0].pics" width="250" height="250" />
             </span>
@@ -87,6 +77,20 @@
 <script>
 import axios from "axios";
 export default {
+  methods: {
+    goTodetail(id) {
+      this.$router.push({
+        name: "DestinationDetail",
+        params: { id: id },
+      });
+    },
+    goToPlacedDetail(id) {
+      this.$router.push({
+        name: "PlaceDetail",
+        params: { id: id },
+      });
+    },
+  },
   components: {},
   data() {
     return {
@@ -95,6 +99,7 @@ export default {
       //   place_images: null,
     };
   },
+
   mounted() {
     const api = "http://127.0.0.1:8000/api/dest";
     // const token = localStorage.getItem("token");

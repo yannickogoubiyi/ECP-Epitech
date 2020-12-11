@@ -1,11 +1,19 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-custom">
-      <a class="navbar-brand" href="#">FITEWE</a>
+      <router-link type="button" :to="{name: 'home'}" class="navbar-brand">FITEWE</router-link>
      
-      <form class="form-inline my-3 my-lg-0 flex-fill justify-content-center">
-          <input class="form-control mr-sm-2" type="text" placeholder="Rechercher" aria-label="Search">
-          <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
-      </form>
+      <form class="form-inline my-2 my-lg-0">
+          <div class="flex flex-col justify-items-center">
+            <div class="position-absolute z-index-0" @click="modal = false"></div>
+            <input class="form-control mr-sm-2 z-index-1" type="text" v-model="name" autocomplete="off" placeholder="Rechercher" @input="filterNames" @focus="modal = true" aria-label="Search">
+              <div v-if="filteredNames && modal" class="z-index-1">
+                <ul class="list-unstyled searchBoxList">
+                  <li v-for="filteredName in filteredNames" class="searchBoxItem z-index-5" v-bind:key="filteredName.id" @click="setName(filteredName)">{{ filteredName }}</li>
+                </ul>
+              </div>
+            </div>
+          <router-link :to="{ name: 'DestinationDetail', params: {id: name }  }" class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></router-link>
+        </form>
 
        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -14,7 +22,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Destinations</a>
+            <router-link :to="{name: 'destinations'}" class="nav-link" href="#">Destinations</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">J'y ai été</a>
@@ -32,10 +40,24 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { mapGetters } from 'vuex'
+
 
 export default {
   name: 'Navbar',
+
+  data () {
+    return {
+      requests:[],
+      modal: false,
+      // places:[],
+      name: "",
+      names:[],
+      filteredNames: [],
+      destInfos:[],
+    }
+  },
 
   computed: {
     ...mapGetters({ currentUser: 'currentUser' })
@@ -44,10 +66,18 @@ export default {
   created () {
     this.checkCurrentLogin()
     this.username = localStorage.username
+    this.getDestinations()
+    // this.getPlaces()
   },
 
   updated () {
     this.checkCurrentLogin()
+  },
+
+  watch: {
+    name () {
+      this.filterNames()
+    }
   },
 
   methods: {
@@ -55,6 +85,39 @@ export default {
       if (!this.currentUser && this.$route.path !== '/') {
         this.$router.replace(this.$route.query.redirect || '/home')
       }
+    },
+
+    getDestinations() {
+      let url = 'http://localhost:8000/api/destinations/'
+      axios.get(url).then(response => this.requests = this.addDestNames(response)).catch(error => console.log(error))
+    },
+        addDestNames(req) {
+          if(req) {
+            for (let destination of req.data.data)
+              this.names.push(destination.dest_name)
+            for (let destination of req.data.data)
+              this.destInfos.push([destination.id, destination.dest_name])
+          }
+    },
+    // getPlaces() {
+    //   let url = 'http://localhost:8000/api/places/'
+    //   axios.get(url).then(response => this.places = this.addPlaceNames(response)).catch(error => console.log(error))
+    // },
+    //     addPlaceNames(req) {
+    //       if(req) {
+    //         for (let place of req.data)
+    //           this.names.push(place.place_name.slice(0, -1))
+    //           console.log(this.names)
+    //     }
+    // },
+    filterNames() {
+      this.filteredNames = this.names.filter(name => {
+          return name.toLowerCase().startsWith(this.name.toLowerCase())
+        })
+    },
+    setName(name) {
+      this.name = name;
+      this.modal = false;
     },
   }
   

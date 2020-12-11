@@ -25,9 +25,9 @@ const routes = [
     component: () => import('../components/Signup.vue')
   },
   {
-    path: '/forgot-password',
-    name: 'forgot-password',
-    component: () => import('../components/ForgotPassword.vue')
+    path: "/home",
+    name: "home",
+    component: () => import("../components/HomeComponent.vue")
   },
   {
     path: '/destinations',
@@ -37,7 +37,12 @@ const routes = [
   {
     path: '/destinations/:id',
     name: 'DestinationDetail',
-    component: () => import('../components/DestinationsDetail.vue')
+    component: () => import('../components/DestinationsDetails.vue')
+  },
+  {
+    path: '/places/:id',
+    name: 'PlaceDetail',
+    component: () => import('../components/PlaceDetails.vue')
   }
 ];
 

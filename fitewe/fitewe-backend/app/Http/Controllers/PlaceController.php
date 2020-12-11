@@ -26,6 +26,10 @@ namespace App\Http\Controllers;
         {
             return Place::where('type_id', 'LIKE', $type)->with('placeImages', 'comments')->get();
         }
+        public function getPlacesByTypesAndDest(int $type, int $dest)
+        {
+            return Place::where('type_id', 'LIKE', $type)->where('dest_id', 'LIKE', $dest)->with('placeImages', 'comments')->get();
+        }
 
        
         /**
