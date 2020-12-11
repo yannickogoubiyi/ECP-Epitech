@@ -1,9 +1,10 @@
 <template>
-    <div class="login-template">
+    <div class="login-template container-fluid">
         <div class="row shadow p-3 mb-5 bg-white rounded">
             <div class="col-md-5">
                 <!-- Login form -->
                 <form v-on:submit.prevent="login">
+                    <div class="alert alert-danger" v-if="error">{{ error }}</div>
                     <div class="form-group">
                         <label for="username">Nom d'utilisateur</label>
                         <input required v-model="username" type="text" class="form-control" id="username" placeholder="Nom d'utilisateur" name="username">
@@ -37,20 +38,77 @@
 </template>
 
 <script>
+import axios from '../backend/vue-axios/axios'
+import store from '../store/index'
+import { mapGetters } from 'vuex'
+
 export default {
     name: 'LoginForm',
 
     data () {
         return {
             username: '',
-            password: ''
+            password: '',
+            error: false,
+            //user: []
         }
     },
 
+    created () {
+        this.checkCurrentLogin()
+    },
+    updated () {
+        this.checkCurrentLogin()
+    },
+
+    computed: {
+        ...mapGetters({ currentUser: 'currentUser' })
+    },
+
     methods: {
+        checkCurrentLogin () {
+            if (this.currentUser != null) {
+                this.$router.replace(this.$route.query.redirect || '/')
+            }
+        },
+
         login(){
-            console.log(this.username)
-            console.log(this.password)
+            axios.post('/login', { username: this.username, password: this.password })
+                .then(request => this.loginSuccessful(request))
+                .catch(() => this.loginFailed())
+        },
+
+        loginSuccessful (req) {
+            if (!req.data.access_token) {
+                this.loginFailed()
+                return
+            }
+
+            // Saving access_token to localStorage
+            localStorage.access_token = req.data.access_token
+            // Saving user to localStorage
+            localStorage.userId = req.data.user.id
+            localStorage.username = req.data.user.username
+            localStorage.userFirstname = req.data.user.firstname
+            localStorage.userLastname = req.data.user.lastname
+            localStorage.userTel = req.data.user.tel
+            localStorage.userEmail = req.data.user.userEmail
+            localStorage.userAvatar = req.data.user.avatar
+            localStorage.userAdminState = req.data.user.admin
+            
+            // this.user = req.data.user
+            // console.log(this.user.username)
+
+            this.$store.dispatch('login')
+            this.error = false
+
+            this.$router.replace(this.$route.query.redirect || '/')
+        },
+
+        loginFailed () {
+            this.error = 'Nom d\'utilisateur et/ou Mot de passe incorrect(s) !'
+            this.$store.dispatch('logout')
+            delete localStorage.access_token
         }
     },
 }
@@ -59,12 +117,12 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
 
-.login-template{
-    margin-top: 5%;
-    margin-bottom: 5%;
+.login-template {
+    margin-top: 10%;
+    margin-bottom: 10%;
 }
 
-.row{
+.row {
     font-family: Fira Sans;
 }
 

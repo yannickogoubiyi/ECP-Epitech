@@ -7,42 +7,42 @@
             <div class="card booking-card shadow-sm p-3 mb-5 bg-white rounded ">
                 <!-- Card content -->
                 <div class="card-body">
-                    <form>
+                    <form v-on:submit="register">
                         <h3>Inscription</h3>
 
                         <div class="form-group">
                             <label for="username">Nom d'utilisateur</label>
-                            <input type="text" class="form-control form-control-lg" id="username" name="username"/>
+                            <input required v-model="username" type="text" class="form-control form-control-lg" id="username" name="username"/>
                         </div>
 
                         <div class="form-group">
                             <label for="firstname">Nom</label>
-                            <input type="text" class="form-control form-control-lg" id="firstname" name="firstname"/>
+                            <input required v-model="firstname" type="text" class="form-control form-control-lg" id="firstname" name="firstname"/>
                         </div>
 
                         <div class="form-group">
                             <label for="lastname">Prénom(s)</label>
-                            <input type="text" class="form-control form-control-lg" id="lastname" name="lastname"/>
+                            <input required v-model="lastname" type="text" class="form-control form-control-lg" id="lastname" name="lastname"/>
                         </div>
 
                         <div class="form-group">
                             <label for="pwd1">Mot de passe</label>
-                            <input type="password" class="form-control form-control-lg" id="pwd1" name="pwd1"/>
+                            <input required v-model="password" type="password" class="form-control form-control-lg" id="pwd1" name="pwd1"/>
                         </div>
 
                         <div class="form-group">
                             <label for="pwd2">Confirmation du mot de passe </label>
-                            <input type="password" class="form-control form-control-lg" id="pwd2" name="pwd2"/>
+                            <input required v-model="password_confirmation" type="password" class="form-control form-control-lg" id="pwd2" name="pwd2"/>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control form-control-lg" id="email" name="email"/>
+                            <input required v-model="email" type="email" class="form-control form-control-lg" id="email" name="email"/>
                         </div>
 
                         <div class="form-group">
                             <label for="tel">Téléphone</label>
-                            <input type="tel" class="form-control form-control-lg" id="tel" name="tel"/>
+                            <input v-model="tel" type="tel" class="form-control form-control-lg" id="tel" name="tel"/>
                         </div>
 
                         <button type="submit" class="btn btn-dark btn-lg btn-block">S'inscrire</button>
@@ -72,9 +72,43 @@
 </style>
 
 <script>
+import axios from '../backend/vue-axios/axios'
+import { mapActions } from "vuex";
+
 export default {
-  data () {
-    return {}
-  }
+    name: 'SignupForm',
+
+    data () {
+        return {
+            username: '',
+            firstname: '',
+            lastname: '',
+            password: '',
+            password_confirmation: '',
+            email: '',
+            tel: '',
+            error: false
+        }
+    }, 
+
+    methods:{
+        register(){
+
+            console.log(this.username)
+
+            axios.post('/register', {username: this.username, firstname: this.firstname, 
+            lastname: this.lastname, password: this.password, password_confirmation: this.password_confirmation, email: this.email, tel: this.tel})
+                .then(request => this.registerSuccessful(request))
+                .catch(() => this.registerFailed())
+        },
+
+        registerSuccessful(req){
+            alert('Compte créé avec succès !')
+        },
+
+        registerFailed(){
+            this.error = 'Erreur !'
+        }
+    }
 }
 </script>

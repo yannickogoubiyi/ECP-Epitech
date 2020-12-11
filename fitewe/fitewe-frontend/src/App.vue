@@ -1,37 +1,18 @@
 <template>
   <div class="vue-template">
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-custom">
-      <a class="navbar-brand" href="#">FITEWE</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <!-- Standard navbar -->
+    <template v-if="!currentUser">
+      <ClassicNavBar></ClassicNavBar>
+    </template>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Destinations</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">J'y ai été</a>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link pr-3" to="/login">Se connecter</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="btn btn-outline-primary" to="/">S'inscrire</router-link>
-          </li>
-        </ul>
-    
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Rechercher" aria-label="Search">
-          <button class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
-        </form>
-      </div>
-    </nav> 
+    <!-- User navbar -->
+    <template v-if="currentUser">
+      <UserNavBar></UserNavBar>
+    </template>
 
     <div class="App">
-      <div class="container">
+      <div class="container-fluid">
         <router-view />
       </div>
     </div>
@@ -77,8 +58,47 @@
   </div>
 </template>
 
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto');
+<script>
+import Navbar from '@/components/Navbar'
+import ClassicNavBar from './components/ClassicNavBar'
+import store from './store/index'
+import { mapGetters } from 'vuex'
+import axios from 'axios'
+
+export default {
+  name: 'app',
+
+  components: {
+    UserNavBar: Navbar,
+    ClassicNavBar,
+  },
+
+  computed: {
+    ...mapGetters({ currentUser: 'currentUser' })
+  },
+
+  created () {
+    this.checkCurrentLogin()
+  },
+
+  updated () {
+    this.checkCurrentLogin()
+  },
+
+  methods: {
+    checkCurrentLogin () {
+      if (this.currentUser == null && this.$route.path !== '/') {
+        //this.$router.push('/?redirect=' + this.$route.path)
+        console.log(this.currentUser)
+      }
+    },
+  }
+
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
 .navbar-custom {
     background-color: #F4C430;
@@ -96,12 +116,41 @@
   color: white;
 }
 
+.custom-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.custom-toggler.navbar-toggler {
+  border-color: rgb(255,255,255);
+} 
+
 .page-footer{
   background-color: #F4C430;
 }
 
 .footer-copyright{
   background-color: #daae2d;
+}
+
+.searchBoxList{
+  width: 223px;
+  background-color: white;
+  color: black;
+  border-bottom: solid 1px grey;
+  border-right: solid 1px grey;
+  border-left: solid 1px grey;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  position: absolute;
+  
+}
+
+.searchBoxItem{
+  padding-top: 10px;
+  padding-bottom: 2%;
+  padding-left: 3%;
+  border-top: solid 1px grey;
+  position: relative;
 }
 
 </style>

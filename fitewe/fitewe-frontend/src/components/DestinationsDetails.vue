@@ -1,145 +1,311 @@
 <template>
   <div class="container-fluid">
+    <!-- nom de la destination, titre de la page -->
     <div class="row">
-      <div class="col-12 text-center">
+      <div class="col-6 text-center row1">
         <div class="display-3 titre">{{ details.dest_name }}</div>
       </div>
     </div>
-
-    <div class="row">
-      <div
-        class="col-10 carte"
-        v-for="place in details.places"
-        v-bind:key="place.id"
-      >
-        <div class="row">
-          <div
-            class="text-center col-3"
-            v-for="place_image in place.place_images"
-            v-bind:key="place_image.id"
-          >
-            <img class="placePic" :src="place_image.pics" /><br />
-          </div>
-          <div class="col-6 desc">
-            <div class="text-center font-weight-bold display-4">
-              {{ place.place_name }}
+    
+          <!-- LISTE DES HOTELS -->
+          <div class="placetype h1">
+            <img class="iconetype" src="../assets/images/icone_hotel.svg" alt="icone_hôtels">
+            <u>HOTELS</u></div>
+      <!-- V-for -->
+      <div class="row">
+        <div class="col-5 carte" v-for="hotel in hotels" v-bind:key="hotel.id">
+          <!-- Vignette -->
+          <div class="row">
+            <div class="text-center col-4" v-for="place_image in filteredHotelsImages" v-bind:key="place_image.id">
+              <img class="placePic" :src=place_image.pics><br>
+              <!-- Likes et dislikes -->
+              <div class="row">
+                  <div class="col-4 pr-0">  <img class="iconlike" src="../assets/images/icone_like.png" alt="like">
+                    {{ hotel.likes_count }}</div>
+                  <div class="col-4 pl-0">  <img class="icondislike" src="../assets/images/icone_dislike.png" alt="dislike">
+                    {{ hotel.dislikes_count }}</div>
+                </div>
             </div>
-            <div class="text-center font-italic">
-              {{ place.place_description }}
+            <!-- Description -->
+            <div class="col-8 desc align-items-center">
+              <div class="text-center font-weight-bold h2">{{ hotel.place_name }}</div>
+              <div class="text-center">{{ hotel.place_address }}</div>
+              <div class="text-center font-italic"><br>{{ hotel.place_description }}</div>
+              <!-- Router Link -->
+              <router-link :to="{ name: 'PlaceDetail', params: {id: hotel.id }  }" class="btn btn-flat red-text p-1 my-1 mr-0 mml-1"><br>EN SAVOIR PLUS >></router-link>
             </div>
-            <div class="text-center">Adresse: {{ place.place_address }}</div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- <div class="row">
-      <div class="col-10 carte" v-for="hotel in hotels" v-bind:key="hotel.id">
-        <div class="row">
-          <div class="text-center col-3" v-for="place_image in place.place_images" v-bind:key="place_image.id">
-            <img class="placePic" :src=place_image.pics><br>
-          </div>
-          <div class="col-6 desc">
-            <div class="text-center font-weight-bold display-4">{{ place.place_name }}</div>
-            <div class="text-center font-italic">{{ place.place_description }}</div>
-            <div class="text-center">Adresse: {{ place.place_address }}</div>
+          <!-- LISTE DES RESTAURANTS-->
+          <div class="placetype h1">
+            <img class="iconetype" src="../assets/images/icone_restaurant.svg" alt="icone_restaurants">
+            <u>RESTAURANTS</u></div>
+      <!-- V-for -->
+      <div class="row">
+        <div class="col-5 carte" v-for="restaurant in restaurants" v-bind:key="restaurant.id">
+          <!-- Vignette -->
+          <div class="row">
+            <div class="text-center col-4" v-for="place_image in filteredRestaurantsImages" v-bind:key="place_image.id">
+              <img class="placePic" :src=place_image.pics><br>
+              <!-- Likes et dislikes -->
+              <div class="row">
+                  <div class="col-4 pr-0">  <img class="iconlike" src="../assets/images/icone_like.png" alt="like">
+                     {{ restaurant.likes_count }}</div>
+                  <div class="col-4 pl-0">  <img class="icondislike" src="../assets/images/icone_dislike.png" alt="dislike">
+                   {{ restaurant.dislikes_count }}</div>
+                </div>
+            </div>
+            <!-- Description -->
+            <div class="col-8 desc align-items-center">
+              <div class="text-center font-weight-bold h2">{{ restaurant.place_name }}</div>
+              <div class="text-center">{{ restaurant.place_address }}</div>
+              <div class="text-center font-italic"><br>{{ restaurant.place_description }}</div>
+              <!-- Router Link -->
+              <router-link :to="{ name: 'PlaceDetail', params: {id: restaurant.id }  }" class="btn btn-flat red-text p-1 my-1 mr-0 mml-1"><br>EN SAVOIR PLUS >></router-link>
+            </div>
           </div>
         </div>
       </div>
-    </div> -->
+
+          <!-- LISTE DES SITES TOURISTIQUES-->
+          <div class="placetype h1">
+            <img class="iconetype" src="../assets/images/icone_tourisme.svg" alt="icone_sites_touristiques">
+            <u>SITES TOURISTIQUES</u></div>
+      <!-- V-for -->
+      <div class="row">
+        <div class="col-5 carte" v-for="site in sites" v-bind:key="site.id">
+          <!-- Vignette -->
+          <div class="row">
+            <div class="text-center col-4" v-for="place_image in filteredSitesImages" v-bind:key="place_image.id">
+              <img class="placePic" :src=place_image.pics><br>
+              <!-- Likes et dislikes -->
+              <div class="row">
+                  <div class="col-4 pr-0">  <img class="iconlike" src="../assets/images/icone_like.png" alt="like">
+                     {{ site.likes_count }}</div>
+                  <div class="col-4 pl-0">  <img class="icondislike" src="../assets/images/icone_dislike.png" alt="dislike">
+                   {{ site.dislikes_count }}</div>
+                </div>
+            </div>
+            <!-- Description -->
+            <div class="col-8 desc align-items-center">
+              <div class="text-center font-weight-bold h2">{{ site.place_name }}</div>
+              <div class="text-center">{{ site.place_address }}</div>
+              <div class="text-center font-italic"><br>{{ site.place_description }}</div>
+              <!-- Router Link -->
+              <router-link :to="{ name: 'PlaceDetail', params: {id: site.id }  }" class="btn btn-flat red-text p-1 my-1 mr-0 mml-1"><br>EN SAVOIR PLUS >></router-link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+          <!-- LISTE DES LIEUX DE DIVERTISSEMENT -->
+          <div class="placetype h1">
+            <img class="iconetype" src="../assets/images/icone_divertissement.svg" alt="icone_lieux_divertissement">
+            <u>DIVERTISSEMENTS ET LOISIRS</u></div>
+      <!-- V-for -->
+      <div class="row">
+        <div class="col-5 carte" v-for="divertissement in divertissements" v-bind:key="divertissement.id">
+          <!-- Vignette -->
+          <div class="row">
+            <div class="text-center col-4" v-for="place_image in filteredDivertissementsImages" v-bind:key="place_image.id">
+              <img class="placePic" :src=place_image.pics><br>
+              <!-- Likes et dislikes -->
+              <div class="row">
+                  <div class="col-4 pr-0">  <img class="iconlike" src="../assets/images/icone_like.png" alt="like">
+                     {{ divertissement.likes_count }}</div>
+                  <div class="col-4 pl-0">  <img class="icondislike" src="../assets/images/icone_dislike.png" alt="dislike">
+                   {{ divertissement.dislikes_count }}</div>
+                </div>
+            </div>
+            <!-- Description -->
+            <div class="col-8 desc align-items-center">
+              <div class="text-center font-weight-bold h2">{{ divertissement.place_name }}</div>
+              <div class="text-center">{{ divertissement.place_address }}</div>
+              <div class="text-center font-italic"><br>{{ divertissement.place_description }}</div>
+              <!-- Router Link -->
+              <router-link :to="{ name: 'PlaceDetail', params: {id: divertissement.id }  }" class="btn btn-flat red-text p-1 my-1 mr-0 mml-1 col-12">EN SAVOIR PLUS >></router-link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 
 export default {
-  name: "DestinationDetail",
-  data() {
+  name: 'DestinationDetail',
+  data () {
     return {
       details: [],
       hotels: [],
       restaurants: [],
       sites: [],
       divertissements: [],
-    };
+      placeImages: []
+    }
   },
   methods: {
-    getDestinationDetail() {
-      let url =
-        "http://localhost:8000/api/destinations/" + this.$route.params.id;
-      axios
-        .get(url)
-        .then((response) => (this.details = response.data[0]))
-        .catch((error) => console.log(error));
-    },
+    // axios de l'API destinations
+    getDestinationDetail () {
+      let url = 'http://localhost:8000/api/destinations/' + this.$route.params.id
+      axios.get(url).then(response => this.details = response.data[0]).catch(error => console.log(error))
+        },
 
-    getHotels() {
-      let url = "http://localhost:8000/api/places/type/1";
-      axios
-        .get(url)
-        .then((response) => (this.hotels = response.data[0]))
-        .catch((error) => console.log(error));
-    },
+    // axios de l'API hotels/destinations
+    getHotels () {
+      let url = 'http://localhost:8000/api/places/type/1/destination/' + this.$route.params.id
+      axios.get(url).then(response => this.hotels = response.data).catch(error => console.log(error))
+        },
+    
+    // axios de l'API restaurants/destinations
+    getRestaurants () {
+      let url = 'http://localhost:8000/api/places/type/2/destination/' + this.$route.params.id
+      axios.get(url).then(response => this.restaurants = response.data).catch(error => console.log(error))
+        },
 
-    getRestaurants() {
-      let url = "http://localhost:8000/api/places/type/2";
-      axios
-        .get(url)
-        .then((response) => (this.restaurants = response.data[0]))
-        .catch((error) => console.log(error));
-    },
+    // axios de l'API sites touristiques/destinations
+    getSitesTouristiques () {
+      let url = 'http://localhost:8000/api/places/type/3/destination/' + this.$route.params.id
+      axios.get(url).then(response => this.sites = response.data).catch(error => console.log(error))
+        },
 
-    getSitesTouristiques() {
-      let url = "http://localhost:8000/api/places/type/3";
-      axios
-        .get(url)
-        .then((response) => (this.sites = response.data[0]))
-        .catch((error) => console.log(error));
-    },
-
-    getDivertissements() {
-      let url = "http://localhost:8000/api/places/type/4";
-      axios
-        .get(url)
-        .then((response) => (this.divertissements = response.data[0]))
-        .catch((error) => console.log(error));
-    },
+    // axios de l'API divertissements/destinations
+    getDivertissements () {
+      let url = 'http://localhost:8000/api/places/type/4/destination/' + this.$route.params.id
+      axios.get(url).then(response => this.divertissements = response.data).catch(error => console.log(error))
+        },
+    
+    // axios de l'API placeImages
+    getPlaceImages () {
+      let url = 'http://localhost:8000/api/placeimagedistinct/'
+      axios.get(url).then(response => this.placeImages = response.data).catch(error => console.log(error))
+        },
   },
-  mounted() {
+computed: {
+    // filtres première image par place
+    filteredHotelsImages() {
+        for (let hotel of this.hotels)
+          return hotel.place_images.slice(0,1)
+        },
+    filteredRestaurantsImages() {
+        for (let restaurant of this.restaurants)
+          return restaurant.place_images.slice(0, 1)
+        },
+    filteredSitesImages() {
+        for (let site of this.sites)
+          return site.place_images.slice(0, 1)
+        },
+    filteredDivertissementsImages() {
+        for (let divertissement of this.divertissements)
+          return divertissement.place_images.slice(0, 1)
+        },
+
+    // filtres premier commentaire par place
+    filteredHotelsComments() {
+        for (let hotel of this.hotels)
+          return hotel.comments.slice(0, 1)
+        },
+    filteredRestaurantsComments() {
+        for (let restaurant of this.restaurants)
+          return restaurant.comments.slice(0, 1)
+        },
+    filteredSitesComments() {
+        for (let site of this.sites)
+          return site.comments.slice(0, 1)
+        },
+    filteredDivertissementsComments() {
+        for (let divertissement of this.divertissements)
+          return divertissement.comments.slice(0, 1)
+        }
+  },
+  mounted () {
     this.getDestinationDetail(),
-      this.getHotels(),
-      this.getRestaurants(),
-      this.getSitesTouristiques(),
-      this.getDivertissements();
-  },
-};
+    this.getHotels(),
+    this.getRestaurants(),
+    this.getSitesTouristiques(),
+    this.getDivertissements()
+  }
+}
+
 </script>
 
 <style scoped>
-.carte {
+.row1{
+  margin-left: auto;
+  margin-right: auto;
+}
+.carte{
   display: inline-block;
-  margin-left: 8.25%;
-  margin-right: 8.25%;
-  margin-top: 2%;
+  margin-top: 2% ;
   margin-bottom: 2%;
-  border: solid 3px #f4c430;
+  margin-left: auto;
+  margin-right: auto;
+  border: solid 1px rgb(167, 167, 167);
+  border-radius: 15px;
   padding-top: 1%;
   padding-bottom: 1%;
   background-color: white;
   color: rgba(0, 0, 0, 0.7);
+  background-image: linear-gradient(to left top, #fffbdd, #fff7e8, #fff8f8, #fffcff, #ffffff);
 }
-.carte:hover {
-  background-color: #f3e7d4;
+.carte:hover{
+  box-shadow: 2px 2px 4px #F4C430;
+  text-decoration: none;
 }
-.titre {
-  color: #f4c430;
+.red-text{
+  float: right;
+}
+.red-text:hover{
+  color: black;
+  text-shadow: 1px 1px 3px #F4C430;
+}
+.titre{
+  color: black;
   margin-bottom: 2%;
-  margin-top: 2%;
+  margin-top: 7%;
+  border: solid 3px black;
+  text-shadow: 1px 1px 3px #F4C430;
+  box-shadow: 2px 2px 4px #F4C430;
+  font-family: 'Lato', sans-serif;
 }
-.placePic {
+.placePic{
   width: 100%;
   height: auto;
-  padding: 0;
+  padding-top: 4%;
+  padding-bottom: 4%;
+  margin-left: 7%;
+}
+.placetype{
+  margin-top: 5%;
+  color: Black;
+  text-shadow: 1px 1px 2px #F4C430;
+  font-family: 'Lato', sans-serif;
+}
+.desc{
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.iconlike{
+  width: 25px;
+  height: 25px;
+  padding-right: 5%;
+}
+.icondislike{
+  width: 25px;
+  height: 25px;
+  padding-right: 5%;
+}
+.iconetype{
+  height: 50px;
+  width: 50px;
+  margin-left: 3%;
+  margin-right: 2%;
 }
 </style>

@@ -6,8 +6,8 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "signup",
-    component: () => import("../components/Signup.vue")
+    name: "home",
+    component: () => import("../components/HomeComponent.vue")
   },
   {
     path: "/login",
@@ -15,14 +15,14 @@ const routes = [
     component: () => import("../components/Login.vue")
   },
   {
-    path: "/signup",
-    name: "signup",
-    component: () => import("../components/Signup.vue")
+    path: "/logout",
+    name: "logout",
+    component: () => import("../components/Logout.vue")
   },
   {
-    path: "/forgot-password",
-    name: "forgot-password",
-    component: () => import("../components/ForgotPassword.vue")
+    path: '/signup',
+    name: 'signup',
+    component: () => import('../components/Signup.vue')
   },
   {
     path: "/home",
@@ -30,19 +30,19 @@ const routes = [
     component: () => import("../components/HomeComponent.vue")
   },
   {
-    path: "/destinations",
-    name: "destinations",
-    component: () => import("../components/Destinations.vue")
+    path: '/destinations',
+    name: 'destinations',
+    component: () => import('../components/Destinations.vue')
   },
   {
-    path: "/destinations/:id",
-    name: "DestinationDetail",
-    component: () => import("../components/DestinationsDetails.vue")
+    path: '/destinations/:id',
+    name: 'DestinationDetail',
+    component: () => import('../components/DestinationsDetails.vue')
   },
   {
-    path: "/places/:id",
-    name: "PlaceDetail",
-    component: () => import("../components/PlaceDetails.vue")
+    path: '/places/:id',
+    name: 'PlaceDetail',
+    component: () => import('../components/PlaceDetails.vue')
   }
 ];
 
@@ -53,3 +53,4 @@ const router = new VueRouter({
 });
 
 export default router;
+

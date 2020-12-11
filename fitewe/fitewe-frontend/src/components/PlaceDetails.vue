@@ -163,8 +163,7 @@ export default {
         .get(url)
         .then((response) => {
           this.comments_details = response.data.data;
-
-          console.log(this.comments_details);
+          // console.log(this.comments_details);
         })
         .catch((error) => {
           console.log(error);
@@ -177,7 +176,7 @@ export default {
   },
   computed: {
     filterFirstActivePlaceImg() {
-      for (let pic of this.pics_details) return pic.pics.slice(0, 1);
+      console.log(place_images[0])
     },
     filterOtherActivePlaceImg() {
       for (let pic of this.pics_details) return pic.pics.slice(1, 100);
