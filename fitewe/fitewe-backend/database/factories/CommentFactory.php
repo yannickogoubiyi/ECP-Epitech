@@ -23,8 +23,8 @@ class CommentFactory extends Factory
     {
         return [
             'user_id' => $this->faker->numberBetween($min = 1, $max = 20),
-            'place_id' => $this->faker->numberBetween($min = 1, $max = 60),
-            'comment' => $this->faker->text($maxNbChars = 255)
+            'place_id' => $this->faker->numberBetween($min = 5, $max = 17),
+            'comment' => $this->faker->text($minNbChars = 50,$maxNbChars = 255)
         ];
     }
 }

@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar-custom">
       <router-link type="button" :to="{name: 'home'}" class="navbar-brand">FITEWE</router-link>
      
-      <form class="form-inline my-2 my-lg-0">
+      <form v-on:submit="redirect" class="form-inline my-2 my-lg-0">
           <div class="flex flex-col justify-items-center">
             <div class="position-absolute z-index-0" @click="modal = false"></div>
             <input class="form-control mr-sm-2 z-index-1" type="text" v-model="name" autocomplete="off" placeholder="Rechercher" @input="filterNames" @focus="modal = true" aria-label="Search">
@@ -12,7 +12,7 @@
                 </ul>
               </div>
             </div>
-          <router-link :to="{ name: 'DestinationDetail', params: {id: name }  }" class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></router-link>
+          <router-link :to="{ name: 'DestinationDetail', params: {id: this.$route.query }  }" class="btn btn-outline-dark my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></router-link>
         </form>
 
        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,6 +68,11 @@ export default {
     this.username = localStorage.username
     this.getDestinations()
     // this.getPlaces()
+    
+    
+  },
+
+  mounted() {
   },
 
   updated () {
@@ -95,8 +100,8 @@ export default {
           if(req) {
             for (let destination of req.data.data)
               this.names.push(destination.dest_name)
-            for (let destination of req.data.data)
-              this.destInfos.push([destination.id, destination.dest_name])
+            for (let destInfo of req.data.data)
+              this.destInfos.push([destInfo.id, destInfo.dest_name])
           }
     },
     // getPlaces() {
@@ -119,6 +124,9 @@ export default {
       this.name = name;
       this.modal = false;
     },
+    redirect(name) {
+
+    }
   }
   
 }

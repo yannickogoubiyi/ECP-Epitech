@@ -16,7 +16,7 @@
         <div class="col-5 carte" v-for="hotel in hotels" v-bind:key="hotel.id">
           <!-- Vignette -->
           <div class="row">
-            <div class="text-center col-4" v-for="place_image in filteredHotelsImages" v-bind:key="place_image.id">
+            <div class="text-center col-4" v-for="(place_image, index) in hotel.place_images" v-bind:key="place_image.id" :class="{ 'inactive': index != 0 }">
               <img class="placePic" :src=place_image.pics><br>
               <!-- Likes et dislikes -->
               <div class="row">
@@ -47,7 +47,7 @@
         <div class="col-5 carte" v-for="restaurant in restaurants" v-bind:key="restaurant.id">
           <!-- Vignette -->
           <div class="row">
-            <div class="text-center col-4" v-for="place_image in filteredRestaurantsImages" v-bind:key="place_image.id">
+            <div class="text-center col-4" v-for="(place_image, index) in restaurant.place_images" v-bind:key="place_image.id" :class="{ 'inactive': index != 0 }">
               <img class="placePic" :src=place_image.pics><br>
               <!-- Likes et dislikes -->
               <div class="row">
@@ -78,7 +78,7 @@
         <div class="col-5 carte" v-for="site in sites" v-bind:key="site.id">
           <!-- Vignette -->
           <div class="row">
-            <div class="text-center col-4" v-for="place_image in filteredSitesImages" v-bind:key="place_image.id">
+            <div class="text-center col-4" v-for="(place_image, index) in site.place_images" v-bind:key="place_image.id" :class="{ 'inactive': index != 0 }">
               <img class="placePic" :src=place_image.pics><br>
               <!-- Likes et dislikes -->
               <div class="row">
@@ -109,8 +109,8 @@
         <div class="col-5 carte" v-for="divertissement in divertissements" v-bind:key="divertissement.id">
           <!-- Vignette -->
           <div class="row">
-            <div class="text-center col-4" v-for="place_image in filteredDivertissementsImages" v-bind:key="place_image.id">
-              <img class="placePic" :src=place_image.pics><br>
+            <div class="text-center col-4" v-for="(place_image, index) in divertissement.place_images" v-bind:key="place_image.id" :class="{ 'inactive': index != 0 }">
+              <img :src=place_image.pics class="placePic"><br>
               <!-- Likes et dislikes -->
               <div class="row">
                   <div class="col-4 pr-0">  <img class="iconlike" src="../assets/images/icone_like.png" alt="like">
@@ -190,40 +190,6 @@ export default {
   },
 computed: {
     // filtres première image par place
-    filteredHotelsImages() {
-        for (let hotel of this.hotels)
-          return hotel.place_images.slice(0,1)
-        },
-    filteredRestaurantsImages() {
-        for (let restaurant of this.restaurants)
-          return restaurant.place_images.slice(0, 1)
-        },
-    filteredSitesImages() {
-        for (let site of this.sites)
-          return site.place_images.slice(0, 1)
-        },
-    filteredDivertissementsImages() {
-        for (let divertissement of this.divertissements)
-          return divertissement.place_images.slice(0, 1)
-        },
-
-    // filtres premier commentaire par place
-    filteredHotelsComments() {
-        for (let hotel of this.hotels)
-          return hotel.comments.slice(0, 1)
-        },
-    filteredRestaurantsComments() {
-        for (let restaurant of this.restaurants)
-          return restaurant.comments.slice(0, 1)
-        },
-    filteredSitesComments() {
-        for (let site of this.sites)
-          return site.comments.slice(0, 1)
-        },
-    filteredDivertissementsComments() {
-        for (let divertissement of this.divertissements)
-          return divertissement.comments.slice(0, 1)
-        }
   },
   mounted () {
     this.getDestinationDetail(),
@@ -307,5 +273,8 @@ computed: {
   width: 50px;
   margin-left: 3%;
   margin-right: 2%;
+}
+.inactive{
+  display: none;
 }
 </style>

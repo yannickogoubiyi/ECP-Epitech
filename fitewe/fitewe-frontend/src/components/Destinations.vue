@@ -10,16 +10,12 @@
     <div class="row">
       <!-- v-for -->
       <div class="card col-5 pl-0 pr-0" v-for="destination in destinations" v-bind:key="destination.id">
-        <!-- icone de la destination -->
-        <div class="d-flex row mb-3" v-for="destination_image in filteredDestinationImages" v-bind:key="destination_image.id">
-          <img :src=destination_image.pics class="rounded-circle mt-4 ml-5" height="50px" width="50px">
           <!-- nom de la destination -->
-          <div class="align-self-center">
+          <div class="mb-2 ml-3">
             <h4 class="w-100 h-20 font-weight-bold mb-2 mt-4 ml-5 h2">{{destination.dest_name}}</h4>
           </div>
-        </div>
           <!-- image de la destination -->
-          <div class="col-12 pl-0 pr-0" v-for="destination_image in filteredDestinationImages" v-bind:key="destination_image.id">
+          <div class="col-12 pl-0 pr-0" v-for="(destination_image, index) in destination.destination_images" v-bind:key="destination_image.id" :class="{ 'inactive': index != 0 }">
             <img class=destpic :src=destination_image.pics>
           <div>
             <!-- description -->
@@ -115,5 +111,8 @@ export default {
 img.destpic{
   width: 100%;
   height: 400px;
+}
+.inactive{
+  display: none;
 }
 </style>

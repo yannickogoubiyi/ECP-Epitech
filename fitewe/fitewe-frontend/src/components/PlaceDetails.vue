@@ -10,8 +10,8 @@
               <div
                 class="tab-pane active"
                 :id="'demo' + picss.id"
-                v-for="picss in pics_details"
-                v-bind:key="picss.id"
+                v-for="(picss, index) in pics_details"
+                v-bind:key="picss.id" :class="{ 'inactive': index != 0 }"
               >
                 <!-- <div v-for="first in picss" v-bind:key="first.id">
                   <img :src="first" />
@@ -64,14 +64,14 @@
           <!-- <h3 class="panel-title">Comments</h3> -->
         </div>
         <div class="panel-body">
-          <ul class="list-group">
+          <ul class="list-group d-flex">
             <li class="list-group-item">
               <div
                 class="row"
                 v-for="details in comments_details"
                 v-bind:key="details.id"
               >
-                <div class="col-xs-2 col-md-1">
+                <div class="col-xs-2 col-md-1 mt-3 mb-3">
                   <!-- :src="details.misc.posted_by.avatar" -->
                   <img
                     src="https://bootdey.com/img/Content/avatar/avatar1.png"
@@ -405,11 +405,16 @@ img {
   }
 }
 
+.inactive{
+  display:none;
+}
+
 /* comments */
 
 li.list-group-item {
   border-radius: 0;
   border-top: solid 3px #f4c430;
+  display: inline;
 }
 li.list-group-item:hover {
   background-color: rgba(86, 61, 124, 0.1);
