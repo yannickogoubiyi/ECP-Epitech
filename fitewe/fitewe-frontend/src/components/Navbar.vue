@@ -36,7 +36,7 @@
         <span class="navbar-text">
             | Bienvenue {{username}} 
         </span> 
-        <span> <img v-bind:src="avatar" alt="Avatar" class="avatar"> </span>
+        <span> <img v-bind:src="avatar" alt="Avatar" class="avatar ml-2"> </span>
       </div>
     </nav> 
 </template>
