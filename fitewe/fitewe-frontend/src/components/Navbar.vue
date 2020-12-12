@@ -25,7 +25,8 @@
             <router-link :to="{name: 'destinations'}" class="nav-link" href="#">Destinations</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">J'y ai été</a>
+            <!-- <a class="nav-link" href="#">J'y ai été</a> -->
+            <router-link class="nav-link pr-3" to="/suggestedPlace">J'y ai été</router-link>
           </li>
 
           <li class="nav-item">

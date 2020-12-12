@@ -75,9 +75,7 @@ export default {
 
         login(){
             axios.post('/login', { username: this.username, password: this.password })
-                .then(request => {
-                    console.log(this.username)
-                    this.loginSuccessful(request)})
+                .then(request => this.loginSuccessful(request))
                 .catch(() => this.loginFailed())
         },
 

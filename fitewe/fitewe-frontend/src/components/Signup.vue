@@ -99,31 +99,32 @@ export default {
             axios.post('/register', {username: this.username, firstname: this.firstname, 
             lastname: this.lastname, password: this.password, password_confirmation: this.password_confirmation, email: this.email, tel: this.tel})
                 .then(request => {
-                    let { status, data, error } = request.data;
-                    if(status){
-                        this.registerSuccessful(request)
-                    }else if(request.data.error.username){
-                        this.flashMessage.error({message: 'Le nom d\'utilisateur existe déjà !'});
-                    }else if(request.data.error.email){
-                        this.flashMessage.error({message: 'L\'adresse mail existe déjà !'});
-                    }else if(request.data.error.password){
-                        this.flashMessage.error({message: 'Le mot de passe doit contenir au moins 5 caractères !'});
-                    }else if(request.data.error.password_confirmation){
-                          this.flashMessage.error({message: 'Les mots de passe ne correspondent pas !'});
-                    }
+                    this.registerSuccessful(request),
                     console.log(request)
                 })
                 .catch(() => this.registerFailed())
         },
 
-        registerSuccessful(req){
-            this.flashMessage.success({title: 'Success', 
-            message: 'Hoorah, compte créé avec succès !'});
+        registerSuccessful(request){
+            // this.flashMessage.success({title: 'Success', 
+            // message: 'Hoorah, compte créé avec succès !'});
+
+            // if(request.data.error.username){
+            //     this.flashMessage.error({message: 'Le nom d\'utilisateur existe déjà !'});
+            // }else if(request.data.error.email){
+            //     this.flashMessage.error({message: 'L\'adresse mail existe déjà !'});
+            // }else if(request.data.error.password){
+            //     this.flashMessage.error({message: 'Le mot de passe doit contenir au moins 5 caractères !'});
+            // }else if(request.data.error.password_confirmation){
+            //     this.flashMessage.error({message: 'Les mots de passe ne correspondent pas !'});
+            // }else{
+                this.$router.replace(this.$route.query.redirect || '/')
+            //}
         },
 
         registerFailed(){
             this.error = 'Oups... Erreur interne :('
-        }
+        },
     }
 }
 </script>
