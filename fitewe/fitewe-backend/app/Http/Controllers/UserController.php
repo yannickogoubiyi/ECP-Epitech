@@ -20,11 +20,11 @@ class UserController extends Controller{
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
-            'username' => 'required', 
+            'username' => 'required|unique:users,username', 
             'firstname' => 'required',
             'lastname' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
+            'password' => 'required|min:5',
             'password_confirmation' => 'required|same:password', 
         ]);
 
@@ -75,6 +75,7 @@ class UserController extends Controller{
             $user->username = $request->input('username');
             $user->firstname = $request->input('firstname');
             $user->lastname = $request->input('lastname');
+            $user->tel = $request->input('tel');
             $user->email = $request->input('email');
             $user->password = Hash::make($request->input('password'));
             $user->save();

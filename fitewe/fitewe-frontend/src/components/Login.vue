@@ -4,7 +4,8 @@
             <div class="col-md-5">
                 <!-- Login form -->
                 <form v-on:submit.prevent="login">
-                    <div class="alert alert-danger" v-if="error">{{ error }}</div>
+                    <FlashMessage></FlashMessage>
+
                     <div class="form-group">
                         <label for="username">Nom d'utilisateur</label>
                         <input required v-model="username" type="text" class="form-control" id="username" placeholder="Nom d'utilisateur" name="username">
@@ -41,6 +42,7 @@
 import axios from '../backend/vue-axios/axios'
 import store from '../store/index'
 import { mapGetters } from 'vuex'
+import FlashMessage from '@smartweb/vue-flash-message';
 
 export default {
     name: 'LoginForm',
@@ -49,7 +51,6 @@ export default {
         return {
             username: '',
             password: '',
-            error: false,
             //user: []
         }
     },
@@ -74,7 +75,9 @@ export default {
 
         login(){
             axios.post('/login', { username: this.username, password: this.password })
-                .then(request => this.loginSuccessful(request))
+                .then(request => {
+                    console.log(this.username)
+                    this.loginSuccessful(request)})
                 .catch(() => this.loginFailed())
         },
 
@@ -106,7 +109,7 @@ export default {
         },
 
         loginFailed () {
-            this.error = 'Nom d\'utilisateur et/ou Mot de passe incorrect(s) !'
+            this.flashMessage.error({message: 'Nom d\'utilisateur et/ou Mot de passe incorrect(s) !'});
             this.$store.dispatch('logout')
             delete localStorage.access_token
         }
