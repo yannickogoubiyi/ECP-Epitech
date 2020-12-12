@@ -8,14 +8,12 @@
           <div class="preview col-md-6">
             <div class="preview-pic tab-content">
               <div
-                class="tab-pane active"
+                class="tab-pane"
                 :id="'demo' + picss.id"
-                v-for="picss in pics_details"
+                v-for="(picss, index) in pics_details"
                 v-bind:key="picss.id"
+                :class="{ active: index === 0 }"
               >
-                <!-- <div v-for="first in picss" v-bind:key="first.id">
-                  <img :src="first" />
-                </div> -->
                 <img :src="picss.pics" />
               </div>
             </div>

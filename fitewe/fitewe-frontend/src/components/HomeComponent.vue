@@ -1,53 +1,48 @@
 <template>
   <div>
     <!-- Caroussel -->
-    <div
-      id="carouselExampleIndicators"
-      class="carousel slide"
-      data-ride="carousel"
-    >
-      <ol class="carousel-indicators">
-        <li
-          data-target="#carouselExampleIndicators"
-          data-slide-to="0"
-          class="active"
-        ></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner">
-        <div
-          class="carousel-item active"
-          v-for="(dest, id) in destination"
-          :key="id"
-        >
-          <img
-            @click="goTodetail(dest.dest_id)"
-            class="d-block w-100"
-            :src="dest.pics"
-            alt="Slides"
-          />
-        </div>
+
+    <agile :autoplay="true" :slidesToShow="1">
+      <div
+        class="slide"
+        v-for="(dest, index) in destination"
+        v-bind:key="dest.id"
+        :class="{ inactive: index != O }"
+      >
+        <img
+          @click="goTodetail(dest.dest_id)"
+          class="d-block w-100"
+          :src="dest.pics"
+          alt="Slides"
+        />
       </div>
-      <a
-        class="carousel-control-prev"
-        href="#carouselExampleIndicators"
-        role="button"
-        data-slide="prev"
+      <div
+        class="slide"
+        v-for="(dest, index) in destination"
+        v-bind:key="dest.id"
+        :class="{ inactive: index != 1 }"
       >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a
-        class="carousel-control-next"
-        href="#carouselExampleIndicators"
-        role="button"
-        data-slide="next"
+        <img
+          @click="goTodetail(dest.dest_id)"
+          class="d-block w-100"
+          :src="dest.pics"
+          alt="Slides"
+        />
+      </div>
+      <div
+        class="slide"
+        v-for="(dest, index) in destination"
+        v-bind:key="dest.id"
+        :class="{ inactive: index != 2 }"
       >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
+        <img
+          @click="goTodetail(dest.dest_id)"
+          class="d-block w-100"
+          :src="dest.pics"
+          alt="Slides"
+        />
+      </div>
+    </agile>
 
     <!-- grid -->
     <div class="container">
@@ -76,6 +71,7 @@
 
 <script>
 import axios from "axios";
+import { VueAgile } from "vue-agile";
 export default {
   methods: {
     goTodetail(id) {
@@ -91,7 +87,9 @@ export default {
       });
     },
   },
-  components: {},
+  components: {
+    agile: VueAgile,
+  },
   data() {
     return {
       places: null,
@@ -149,5 +147,8 @@ export default {
 
 #place_name {
   text-align: center;
+}
+.inactive {
+  display: none;
 }
 </style>
