@@ -9,7 +9,8 @@
                 <div class="card-body">
                     <form v-on:submit="register">
                         <h3>Inscription</h3>
-                        <div class="alert alert-danger" v-if="error">{{ error }}</div>
+                        <!-- <div class="alert alert-danger" v-if="error">{{ error }}</div> -->
+                        <FlashMessage></FlashMessage>
 
                         <div class="form-group">
                             <label for="username">Nom d'utilisateur</label>
@@ -75,6 +76,7 @@
 <script>
 import axios from '../backend/vue-axios/axios'
 import { mapActions } from "vuex";
+import FlashMessage from '@smartweb/vue-flash-message';
 
 export default {
     name: 'SignupForm',
@@ -88,7 +90,6 @@ export default {
             password_confirmation: '',
             email: '',
             tel: '',
-            error: null
         }
     }, 
 
@@ -98,22 +99,32 @@ export default {
             axios.post('/register', {username: this.username, firstname: this.firstname, 
             lastname: this.lastname, password: this.password, password_confirmation: this.password_confirmation, email: this.email, tel: this.tel})
                 .then(request => {
-                    this.registerSuccessful(request)
-                    this.error = request.data.error
-                    //console.log(request)
-
+                    this.registerSuccessful(request),
+                    console.log(request)
                 })
-                .catch((error) => {
-                    this.registerFailed()})
+                .catch(() => this.registerFailed())
         },
 
-        registerSuccessful(req){
-            this.$router.replace(this.$route.query.redirect || '/login')
+        registerSuccessful(request){
+            // this.flashMessage.success({title: 'Success', 
+            // message: 'Hoorah, compte créé avec succès !'});
+
+            // if(request.data.error.username){
+            //     this.flashMessage.error({message: 'Le nom d\'utilisateur existe déjà !'});
+            // }else if(request.data.error.email){
+            //     this.flashMessage.error({message: 'L\'adresse mail existe déjà !'});
+            // }else if(request.data.error.password){
+            //     this.flashMessage.error({message: 'Le mot de passe doit contenir au moins 5 caractères !'});
+            // }else if(request.data.error.password_confirmation){
+            //     this.flashMessage.error({message: 'Les mots de passe ne correspondent pas !'});
+            // }else{
+                this.$router.replace(this.$route.query.redirect || '/')
+            //}
         },
 
-        registerFailed(err){
-            this.error = 'Erreur !'
-        }
+        registerFailed(){
+            this.error = 'Oups... Erreur interne :('
+        },
     }
 }
 </script>

@@ -25,7 +25,8 @@
             <router-link :to="{name: 'destinations'}" class="nav-link" href="#">Destinations</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">J'y ai été</a>
+            <!-- <a class="nav-link" href="#">J'y ai été</a> -->
+            <router-link class="nav-link pr-3" to="/suggestedPlace">J'y ai été</router-link>
           </li>
 
           <li class="nav-item">
@@ -33,8 +34,9 @@
           </li>
         </ul>
         <span class="navbar-text">
-            | Bienvenue {{username}}
-        </span>
+            | Bienvenue {{username}} 
+        </span> 
+        <span> <img v-bind:src="avatar" alt="Avatar" class="avatar"> </span>
       </div>
     </nav> 
 </template>
@@ -49,6 +51,9 @@ export default {
 
   data () {
     return {
+      username: localStorage.username,
+      avatar: localStorage.userAvatar,
+
       requests:[],
       modal: false,
       // places:[],
@@ -65,7 +70,6 @@ export default {
 
   created () {
     this.checkCurrentLogin()
-    this.username = localStorage.username
     this.getDestinations()
     // this.getPlaces()
     
@@ -136,6 +140,13 @@ export default {
 .navbar-text{
   font-family: Roboto, sans-serif;
   color: white;
+}
+
+.avatar {
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 </style>
     
